@@ -1,15 +1,16 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user')
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  console.log('works')
-  return res.json([{
-    	id: 1,
-    	username: "samsepi0l"
-    }, {
-    	id: 2,
-    	username: "D0loresH4ze"
-    }]);
-})
+
+/* Login User. */
+router.post('/', function(req, res, next) {
+  User.create({ email: req.body.email, password: req.body.password}, function (err, user) {
+  if (err) return err;
+  console.log(user)
+  });
+  res.redirect('../reactfrontend/src/components/Welcome');
+
+});
+
 module.exports = router;
