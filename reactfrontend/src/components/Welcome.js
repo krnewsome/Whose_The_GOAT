@@ -1,5 +1,6 @@
 
 import React from 'react';
+import SignupForm from './SignupForm.js'
 
 class Welcome extends React.Component {
 
@@ -7,10 +8,13 @@ class Welcome extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      isLoggedin: false,
       showSignUp: false,
       showLogin: true,
       className: "shadow-sm p-3 m-5 bg-white rounded",
+      signupFormDisplay: "transformDelayOut shadow-sm p-3 m-5 bg-warning rounded",
       eWlButtonclassName: "my-4 btn btn-warning",
+      eWlButtonText: "Enter without Logining in",
       opacity: 'none',
     }
   }
@@ -25,6 +29,7 @@ class Welcome extends React.Component {
 
 // functions
 
+  // sign in button
   handleClick = e => {
     e.preventDefault();
     console.log(e.target.textContent)
@@ -32,10 +37,16 @@ class Welcome extends React.Component {
     if (userSelection === 'sign-up'){
       let form = document.querySelector('form');
       let eWlButton = document.getElementById('eWlButton');
+      let signupForm = document.getElementById('signupForm');
+
       console.log(form)
-      form.className = "shadow-sm p-3 m-5 bg-warning rounded";
-      eWlButton.className = "my-4 btn btn-success";
-      this.setState({className: form.className})
+      this.setState({
+        className: form.className = "transformDelayOut shadow-sm p-3 m-5 bg-warning rounded ",
+        eWlButtonclassName: eWlButton.className = "transformDelayOut my-4 btn btn-success",
+        signupFormDisplay: signupForm.className= "transformDelayOut shadow-sm p-3 m-5 bg-warning rounded"
+        // showLogin: this.showLogin = false,
+        // showSignUp: this.showLogin = true,
+      });
     } else if (userSelection === 'Login'){
 
     } else {
@@ -52,15 +63,17 @@ class Welcome extends React.Component {
     return (
     <div className = 'container-fluid p-3 mb-2 bg-success text-dark' >
       <h1 className = "my-4 jumbotron display-4 shadow-lg p-3 mb-5 bg-white rounded"> Whose the GOAT </h1>
+        <SignupForm className= {this.state.signupFormDisplay} showSignUp= {this.state.showSignUp}/>
         <form
         id = "loginForm"
         method = "post"
         action = "/users"
         className = {this.state.className}
-        onClick={this.handleClick}
+        onClick = {this.handleClick}
+        style= {{display: this.state.showLogin ? 'block' : 'none'}}
         >
           <h3> Welcome </h3>
-          <button className = {this.state.eWlButtonclassName} id = 'eWlButton'> Enter without Logining in </button>
+          <button className = {this.state.eWlButtonclassName} id = 'eWlButton'> {this.state.eWlButtonText} </button>
           <div className="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input type="email" className="form-control mx-auto" id="exampleInputEmail1" name= "email" aria-describedby="emailHelp" placeholder="Enter email"/>

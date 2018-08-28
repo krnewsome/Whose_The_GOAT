@@ -10,3 +10,16 @@ body {
 .form-control{
   max-width: 275px;
 }
+
+.transformDelayOut{
+  transition-duration: 2s;
+  transform: rotateY(360deg);
+  opacity: .0;
+}
+
+.transformDelayIn{
+  transition-duration: 2s;
+  transform: rotateY(360deg);
+  display: 'block';
+  opacity: 100;
+}
