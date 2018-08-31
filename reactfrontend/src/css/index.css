@@ -11,15 +11,27 @@ body {
   max-width: 275px;
 }
 
+.nameDiv {
+  display: none;
+}
+
+#signupLink:hover .nameDiv{
+  display: block;
+  transition-duration: 3s;
+
+
+}
 .transformDelayOut{
-  transition-duration: 2s;
-  transform: rotateY(360deg);
-  opacity: .0;
+  transition-duration: 3s;
+  /* opacity: .0; */
 }
 
 .transformDelayIn{
-  transition-duration: 2s;
-  transform: rotateY(360deg);
-  display: 'block';
   opacity: 100;
+  display: block;
+ transition: opacity 2s ease-in;
+}
+
+.hideSignin {
+  display: none;
 }

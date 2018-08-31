@@ -5,7 +5,8 @@ const User = require('../models/user')
 
 /* Login User. */
 router.post('/', function(req, res, next) {
-  User.create({ email: req.body.email, password: req.body.password}, function (err, user) {
+  User.create({ userName: req.body.userName, email: req.body.email, password: req.body.password}, function (err, user) {
+    console.log(err)
   if (err) return err;
   console.log(user)
   });
