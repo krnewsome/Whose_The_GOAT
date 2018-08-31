@@ -1,5 +1,6 @@
 
 import React from 'react';
+import {Link, Redirect} from 'react-router-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
 import FormFields from './FormFields';
 import ErrorBoundary from './ErrorBoundary';
@@ -14,7 +15,7 @@ class Welcome extends React.Component {
       isLoggedin: false,
       showSignin: true,
       className: "shadow-sm p-3 m-5 bg-white rounded",
-      eWlButtonclassName: "my-4 btn btn-warning",
+      eWlButtonclassName: "btn btn-outline-warning",
       userNameInput: "form-group nameDiv",
       eWlButtonText: "Enter without Logining in",
       divClassName: 'form-group hideSignin',
@@ -50,7 +51,7 @@ class Welcome extends React.Component {
         <form
         id = "loginForm"
         method = "post"
-        action = "/users"
+        action = "/welcome"
         className = {this.state.className}
         >
           <h3> Welcome </h3>
@@ -65,8 +66,8 @@ class Welcome extends React.Component {
 
             </CSSTransitionGroup>
           </ErrorBoundary>
-          <button type="submit" className="btn btn-success">{this.state.button1Name}</button>
-          <a id="signupLink" href="#" className = "m-1" onClick = {this.handleClick}>sign-up</a>
+          <button type="submit" className="btn btn btn-outline-success">{this.state.button1Name}</button>
+          <button id="signupLink" className = "btn btn btn-outline-success" onClick = {this.handleClick}><Link to={'/'}>Sign-up</Link></button>
         </form>
     </div>
     )

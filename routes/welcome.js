@@ -10,7 +10,7 @@ router.post('/', function(req, res, next) {
   if (err) return err;
   console.log(user)
   });
-  res.redirect('../reactfrontend/src/components/Welcome');
+  res.redirect('/Home');
 
 });
 

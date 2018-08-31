@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
+//Authentication
+
+
+
 // Hash password
 UserSchema.pre('save', function(next){
   const user = this;
