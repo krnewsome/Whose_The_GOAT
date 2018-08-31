@@ -1,6 +1,5 @@
 
 import React from 'react';
-import {Link, Redirect} from 'react-router-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
 import FormFields from './FormFields';
 import ErrorBoundary from './ErrorBoundary';
@@ -20,11 +19,11 @@ class Welcome extends React.Component {
       eWlButtonText: "Enter without Logining in",
       divClassName: 'form-group hideSignin',
       button1Name: 'Login',
+      formButtonAction: '/login',
+
     }
   }
 
-  componentDidMount() {
-  }
 
 // functions
 
@@ -37,10 +36,12 @@ class Welcome extends React.Component {
         userNameInput:'transformDelayIn form-group nameDiv',
         divClassName: 'form-group',
         button1Name: 'Register',
+        formButtonAction: '/welcome',
+
 
 
       });
-  }
+  }// end of handleClick
 
 /* ---------- RENDER ----------*/
   render(){
@@ -51,11 +52,11 @@ class Welcome extends React.Component {
         <form
         id = "loginForm"
         method = "post"
-        action = "/welcome"
+        action = {this.state.formButtonAction}
         className = {this.state.className}
         >
           <h3> Welcome </h3>
-          <button className = {this.state.eWlButtonclassName} id = 'eWlButton'> {this.state.eWlButtonText} </button>
+          <a href = 'home' className = {this.state.eWlButtonclassName} id = 'eWlButton'> {this.state.eWlButtonText}</a>
           <ErrorBoundary>
             <CSSTransitionGroup
               transitionName="example"
@@ -66,8 +67,9 @@ class Welcome extends React.Component {
 
             </CSSTransitionGroup>
           </ErrorBoundary>
+
           <button type="submit" className="btn btn btn-outline-success">{this.state.button1Name}</button>
-          <button id="signupLink" className = "btn btn btn-outline-success" onClick = {this.handleClick}><Link to={'/'}>Sign-up</Link></button>
+          <button id="signupLink" className = "btn btn btn-outline-success" onClick = {this.handleClick}>Sign-up</button>
         </form>
     </div>
     )

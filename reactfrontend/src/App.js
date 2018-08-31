@@ -8,8 +8,10 @@ import {
 import './css/App.css';
 import Welcome from './components/Welcome.js';
 import Home from './components/Home.js';
+import NavBar from './components/NavBar';
 
 
+/* FETCH FUNCTIONS*/
 
 
 class App extends Component {
@@ -18,6 +20,7 @@ class App extends Component {
     return (
       <BrowserRouter>
           <div className='App'>
+          <NavBar />
           <Switch>
             <Route exact path='/' render={() => <Welcome /> }/>
             <Route path='/Home' render={() => <Home/> }/>

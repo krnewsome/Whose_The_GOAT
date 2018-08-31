@@ -5,13 +5,8 @@ const User = require('../models/user')
 
 /* Login User. */
 router.get('/', function(req, res, next) {
-  User.create({ userName: req.body.userName, email: req.body.email, password: req.body.password}, function (err, user) {
-    console.log(err)
-  if (err) return err;
-  console.log(user)
-  });
-  res.redirect('../reactfrontend/src/components/welcome');
-
+    console.log('err')
+  res.send('2fsda');
 });
 
 module.exports = router;
