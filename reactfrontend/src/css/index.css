@@ -37,3 +37,23 @@ body {
 .hideSignin {
   display: none;
 }
+
+.homePage {
+  margin-right: 25%;
+}
+
+.hCol-1 {
+  background-color: green;
+}
+
+.hCol-2 {
+  background-color: blue;
+}
+
+.hCol-3 {
+  background-color: yellow;
+}
+
+.hCol-4 {
+  background-color: lightblue;
+}
