@@ -10,7 +10,6 @@ import Welcome from './components/Welcome.js';
 import Home from './components/Home.js';
 import NavBar from './components/NavBar';
 
-
 /* FETCH FUNCTIONS*/
 
 
@@ -23,7 +22,7 @@ class App extends Component {
           <NavBar />
           <Switch>
             <Route exact path='/' render={() => <Welcome /> }/>
-            <Route path='/Home' render={() => <Home/> }/>
+            <Route exact path='/home' render={() => <Home /> }/>
           </Switch>
           </div>
       </BrowserRouter>

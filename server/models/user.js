@@ -22,12 +22,16 @@ const UserSchema = new mongoose.Schema({
     name: {
       type: String,
       trim: true,
-    },
-    photo: {
-      type: String,
-      trim: true,
-    },
+    }
   },
+  photo: {
+    type: String,
+    trim: true,
+  },
+  userZip: {
+    type: String,
+    required: true,
+  }
 });
 
 //Authentication

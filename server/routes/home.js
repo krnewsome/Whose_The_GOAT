@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user')
 
 
 /* Login User. */
 router.get('/', function(req, res, next) {
-    console.log('err')
-  res.send('2fsda');
+  console.log('works')
+  res.end()
 });
+
+router.post('/newGOAT', function(req, res, next) {
+  console.log('newGoat')
+  res.end()
+})
 
 module.exports = router;

@@ -3,6 +3,7 @@ import React from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 import FormFields from './FormFields';
 import ErrorBoundary from './ErrorBoundary';
+import {Link} from 'react-router-dom';
 
 
 class Welcome extends React.Component {
@@ -37,9 +38,6 @@ class Welcome extends React.Component {
         divClassName: 'form-group',
         button1Name: 'Register',
         formButtonAction: '/welcome',
-
-
-
       });
   }// end of handleClick
 
@@ -56,7 +54,9 @@ class Welcome extends React.Component {
         className = {this.state.className}
         >
           <h3> Welcome </h3>
-          <a href = 'home' className = {this.state.eWlButtonclassName} id = 'eWlButton'> {this.state.eWlButtonText}</a>
+          <p className = {this.state.eWlButtonclassName} id = 'eWlButton'>
+            <Link className="navbar-brand" to="/home">{this.state.eWlButtonText}</Link>
+          </p>
           <ErrorBoundary>
             <CSSTransitionGroup
               transitionName="example"
