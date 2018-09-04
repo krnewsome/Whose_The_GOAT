@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 /client/node_modules
-/config.js
+/client/src/config.js
 
 # testing
 /coverage
