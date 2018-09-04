@@ -2,11 +2,11 @@ import React from 'react';
 
 class SearchResultsSection extends React.Component  {
 
-  onClick = () => {
-
-  }
   handleSubmit = e => {
     e.preventDefault();
+
+    console.log(e.target[0].id)
+    this.props.onVote(e.target[0].id)
   };//end of handleSubmit
 
   render (props) {
@@ -19,9 +19,10 @@ class SearchResultsSection extends React.Component  {
           id = "voteForm"
           method = "post"
           className = 'voteForm'
-          action = '/newGOAT'
+          onSubmit={this.handleSubmit}
           >
             <div className="card">
+              <h4>[votes:]</h4>
               <img className="card-img-top" src=".../100px180/" alt="PlayerAvatar"></img>
               <div className="card-body">
                 <h5 className="card-title">{this.props.playerName}</h5>
@@ -30,7 +31,7 @@ class SearchResultsSection extends React.Component  {
                   <li>Rebounds Per Game: {this.props.rpg}</li>
                   <li>Assit Per Game: {this.props.apg}</li>
                 </ul>
-                <button type='submit' className="btn btn-primary voteUp">Vote up</button>
+                <button id= {this.props.votePlayerID} type='submit' className="btn btn-primary">Vote up</button>
                 <button type='submit' className="btn btn-primary voteDown">Remove Vote</button>
               </div>
             </div>

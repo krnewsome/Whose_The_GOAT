@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 
 class Welcome extends React.Component {
 
-/* ---------- CONSTRUCTOR ----------*/
+  /* ---------- CONSTRUCTOR ----------*/
   constructor(props){
     super(props);
     this.state = {
@@ -21,25 +21,30 @@ class Welcome extends React.Component {
       divClassName: 'form-group hideSignin',
       button1Name: 'Login',
       formButtonAction: '/login',
-
     }
   }
 
-
-// functions
-
-  // sign in button
-  handleClick = e => {
+  
+  // functions
+  handleEWLButton = e => {
     e.preventDefault();
       this.setState({
-        className: "transformDelayOut shadow-sm p-3 m-5 bg-warning rounded ",
-        eWlButtonclassName: "transformDelayOut my-4 btn btn-success",
-        userNameInput:'transformDelayIn form-group nameDiv',
-        divClassName: 'form-group',
-        button1Name: 'Register',
-        formButtonAction: '/welcome',
+
       });
   }// end of handleClick
+
+    // sign in button
+    handleSignUpButton = e => {
+      e.preventDefault();
+        this.setState({
+          className: "transformDelayOut shadow-sm p-3 m-5 bg-warning rounded ",
+          eWlButtonclassName: "transformDelayOut my-4 btn btn-success",
+          userNameInput:'transformDelayIn form-group nameDiv',
+          divClassName: 'form-group',
+          button1Name: 'Register',
+          formButtonAction: '/signUp',
+        });
+    }// end of handleClick
 
 /* ---------- RENDER ----------*/
   render(){
@@ -55,7 +60,7 @@ class Welcome extends React.Component {
         >
           <h3> Welcome </h3>
           <p className = {this.state.eWlButtonclassName} id = 'eWlButton'>
-            <Link className="navbar-brand" to="/home">{this.state.eWlButtonText}</Link>
+            <Link className="navbar-brand" to='/home' >{this.state.eWlButtonText}</Link>
           </p>
           <ErrorBoundary>
             <CSSTransitionGroup
@@ -69,7 +74,7 @@ class Welcome extends React.Component {
           </ErrorBoundary>
 
           <button type="submit" className="btn btn btn-outline-success">{this.state.button1Name}</button>
-          <button id="signupLink" className = "btn btn btn-outline-success" onClick = {this.handleClick}>Sign-up</button>
+          <button id="signupLink" className = "btn btn btn-outline-success" onClick = {this.handleSignUpButton}>Sign-up</button>
         </form>
     </div>
     )

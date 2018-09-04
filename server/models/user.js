@@ -18,19 +18,20 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  topRatedGOAT: {
-    name: {
-      type: String,
-      trim: true,
-    }
-  },
+
+  votePlayerID: String,
+
+  userVote: Number,
+
   photo: {
     type: String,
     trim: true,
   },
+
   userZip: {
     type: String,
     required: true,
+    trim: true
   }
 });
 

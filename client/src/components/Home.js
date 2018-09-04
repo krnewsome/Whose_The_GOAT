@@ -11,6 +11,7 @@ class Home extends React.Component {
    this.state = {
      error: null,
      isLoading: true,
+     votePlayerID:'',
      playerName: '',
      ppg:'',
      rpg:'',
@@ -19,18 +20,7 @@ class Home extends React.Component {
    };
  }
 
-  componentDidMount(){
-    console.log(this.state.playerName)
-    fetch('/search-location-weather',{
-      headers: {
-        url: "http://localhost:5000/search-location-weather"
-      }
-    })
-		.then(res => console.log(res))
-    .then(result => {
-    console.log(result)
-    })
-  }
+
 
   //perform search for player
   performSearch = (playerName) => {
@@ -39,15 +29,29 @@ class Home extends React.Component {
     console.log(player)
     NBA.stats.playerInfo({ PlayerID: player.playerId })
     .then(data => {
-      console.log(data.playerHeadlineStats[0].pts)
+      console.log()
       this.setState({
         playerName: data.commonPlayerInfo[0].displayFirstLast,
         ppg: data.playerHeadlineStats[0].pts,
         rpg: data.playerHeadlineStats[0].reb,
         apg: data.playerHeadlineStats[0].ast,
+        votePlayerID: data.commonPlayerInfo[0].personId,
       })
     });
   }
+
+  userVote = (votePlayerID) => {
+    fetch ('/home/newGOAT', {
+      method: "POST",
+      body: JSON.stringify({votePlayerID}),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })//end of fetch
+    .then(res => console.log('Sucess', res))
+    .catch(error => console.error('Error:', error));
+
+  }// end of userVote
 
   render(){
 
@@ -76,7 +80,7 @@ class Home extends React.Component {
         <div  key= "3" className="row">
           <div className="col hCol-4">
             <div className= 'searchResults'>
-              <SearchResultsSection playerName= {this.state.playerName} ppg={this.state.ppg} rpg= {this.state.rpg} apg= {this.state.apg} />
+              <SearchResultsSection onVote= {this.userVote} votePlayerID= {this.state.votePlayerID} playerName= {this.state.playerName} ppg={this.state.ppg} rpg= {this.state.rpg} apg= {this.state.apg} />
             </div>
           </div>
           <div key= "4" className="col-4 hCol-2">

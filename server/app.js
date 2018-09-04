@@ -8,6 +8,13 @@ var app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require ('cors');
+const session = require('express-session');
+
+app.use(session({
+  secret:'Whose the Goat',
+  resave: true,
+  saveUnitialized: false
+}))
 
 // mongodb connection
 mongoose.connect("mongodb://localhost:27017/whoseTheGoat");
