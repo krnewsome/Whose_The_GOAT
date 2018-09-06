@@ -2,11 +2,9 @@ import React from 'react';
 
 class SearchResultsSection extends React.Component  {
 
-  handleSubmit = e => {
-    e.preventDefault();
-
-    console.log(e.target[0].id)
-    this.props.onVote(e.target[0].id)
+  handleClick = e => {
+    console.log(e.target.textContent)
+    this.props.onVote(e.target.id, e.target.textContent)
   };//end of handleSubmit
 
   render (props) {
@@ -15,12 +13,6 @@ class SearchResultsSection extends React.Component  {
       <div key= "2" className = 'searchResultsContainer'>
         <ul>
           <li>
-          <form
-          id = "voteForm"
-          method = "post"
-          className = 'voteForm'
-          onSubmit={this.handleSubmit}
-          >
             <div className="card">
               <h4>[votes:]</h4>
               <img className="card-img-top" src=".../100px180/" alt="PlayerAvatar"></img>
@@ -31,11 +23,10 @@ class SearchResultsSection extends React.Component  {
                   <li>Rebounds Per Game: {this.props.rpg}</li>
                   <li>Assit Per Game: {this.props.apg}</li>
                 </ul>
-                <button id= {this.props.votePlayerID} type='submit' className="btn btn-primary">Vote up</button>
-                <button type='submit' className="btn btn-primary voteDown">Remove Vote</button>
+                <button id= {this.props.votePlayerID} onClick = {this.handleClick} className="btn btn-primary">Vote up</button>
+                <button id= {this.props.votePlayerID} type='submit' onClick = {this.handleClick} className="btn btn-primary voteDown">Remove Vote</button>
               </div>
             </div>
-            </form>
           </li>
         </ul>
       </div>

@@ -14,7 +14,6 @@ class SearchForm extends React.Component  {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log('handleSubmit')
     this.props.onSearch(this.searchTag.value)
     e.currentTarget.reset();
   };//end of handleSubmit

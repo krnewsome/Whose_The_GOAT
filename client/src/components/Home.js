@@ -24,9 +24,7 @@ class Home extends React.Component {
 
   //perform search for player
   performSearch = (playerName) => {
-    console.log(playerName)
     let player = NBA.findPlayer(playerName)
-    console.log(player)
     NBA.stats.playerInfo({ PlayerID: player.playerId })
     .then(data => {
       console.log()
@@ -40,18 +38,28 @@ class Home extends React.Component {
     });
   }
 
-  userVote = (votePlayerID) => {
+  userVote = (votePlayerID, voteButtonType) => {
     fetch ('/home/newGOAT', {
-      method: "POST",
-      body: JSON.stringify({votePlayerID}),
+      method: "PUT",
+      body: JSON.stringify({votePlayerID, voteButtonType}),
       headers:{
         'Content-Type': 'application/json'
       }
     })//end of fetch
     .then(res => console.log('Sucess', res))
     .catch(error => console.error('Error:', error));
-
   }// end of userVote
+
+  removeUserVote = (votePlayerID) => {
+    fetch ('/home/removeGOAT', {
+      method: "PUT",
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })//end of fetch
+    .then(res => console.log('Sucess', res))
+    .catch(error => console.error('Error:', error));
+  }// end of removeUserVote
 
   render(){
 
@@ -80,7 +88,7 @@ class Home extends React.Component {
         <div  key= "3" className="row">
           <div className="col hCol-4">
             <div className= 'searchResults'>
-              <SearchResultsSection onVote= {this.userVote} votePlayerID= {this.state.votePlayerID} playerName= {this.state.playerName} ppg={this.state.ppg} rpg= {this.state.rpg} apg= {this.state.apg} />
+              <SearchResultsSection onVote= {this.userVote} removeVote= {this.removeUserVote} votePlayerID= {this.state.votePlayerID} playerName= {this.state.playerName} ppg={this.state.ppg} rpg= {this.state.rpg} apg= {this.state.apg} />
             </div>
           </div>
           <div key= "4" className="col-4 hCol-2">

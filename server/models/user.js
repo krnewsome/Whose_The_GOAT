@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
 const bcrypt =require('bcrypt');
-
+const Schema = mongoose.Schema
 
 const UserSchema = new mongoose.Schema({
+  _id: {
+    type: Schema.ObjectId,
+    auto: true,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
@@ -20,6 +25,13 @@ const UserSchema = new mongoose.Schema({
   },
 
   votePlayerID: String,
+
+  userGoatCard:
+    {
+      type: Schema.ObjectId,
+      ref: 'UserGoatCard',
+    },
+
 
   userVote: Number,
 
