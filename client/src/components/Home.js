@@ -1,5 +1,5 @@
 import React from 'react';
-import TopRatedGOATList from './TopRatedGOATList';
+import MyVotedGoat from './MyVotedGoat';
 import SearchForm from './SearchForm';
 import SearchResultsSection from './SearchResultsSection';
 const NBA = require("nba");
@@ -12,6 +12,10 @@ class Home extends React.Component {
      error: null,
      isLoading: true,
      votePlayerID:'',
+     votedGoatName:'',
+     votedGoatPPG:'',
+     votedGoatRPG:'',
+     votedGoatAPG:'',
      playerName: '',
      ppg:'',
      rpg:'',
@@ -20,7 +24,17 @@ class Home extends React.Component {
    };
  }
 
-
+componentDidMount(){
+  fetch ('/home/userGoatCard')
+  .then(res => res.json())
+  .then(user => {
+    console.log(user.goatcard.goatRPG)
+    this.setState({
+      votedGoatName: user.goatcard.goatRPG
+    })
+  })
+  .catch(error => console.error('Error:', error));
+}// end of componentDidMount
 
   //perform search for player
   performSearch = (playerName) => {
@@ -92,8 +106,12 @@ class Home extends React.Component {
             </div>
           </div>
           <div key= "4" className="col-4 hCol-2">
-            <div className= 'topGoatList'>
-              <TopRatedGOATList />
+            <div className= 'myVotedGoat'>
+              <MyVotedGoat
+              votedGoatName = {this.state.votedGoatName}
+              votedGoatPPG = {this.state.votedGoatPPG}
+              votedGoatRPG = {this.state.votedGoatRPG}
+              votedGoatAPG = {this.state.votedGoatAPG}/>
             </div>
           </div>
         </div>

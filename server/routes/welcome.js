@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const User = require('../models/user');
-const UserGoatCard = require('../models/UserGoatCard');
+const UserGoatCard = require('../models/userGoatCard');
 const apiKey = require( '../../client/src/config.js');
 
 

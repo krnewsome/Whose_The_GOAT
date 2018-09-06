@@ -1,11 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user')
+const User = require('../models/user');
+const NBA = require("nba");
+const UserGoatCard = require('../models/userGoatCard')
 
 
-/* Login User. */
-router.post('/eWL', function(req, res, next) {
-  res.redirect('/home')
+let userGoatCardID = '';
+/* GET userGoatCard. */
+router.get('/userGoatCard', function(req, res, next) {
+  console.log(req.session.userId)
+  User.findById(req.session.userId)
+    .populate('userGoatCard')
+    .exec(function (err, user) {
+      let goatcard = user.userGoatCard
+      console.log(user.userGoatCard)
+      res.send({ goatcard })
+    })
 });
 
 // PUT update user with voted NBA player id
@@ -16,16 +26,24 @@ router.put('/newGOAT', function(req, res, next) {
     console.log(err)
     return next(err)
   } else {
-    console.log(req.body.voteButtonType)
     if( req.body.voteButtonType === 'Vote up' ) {
-      console.log(req.session.userId )
       User.findById(req.session.userId)
         .exec(function(error, user){
-          console.log(user)
           if(user.userVote !== 0) {
             user.update({votePlayerID: req.body.votePlayerID, userVote: 0}, function(err, data){
-              console.log(data)
-            })
+              NBA.stats.playerInfo({ PlayerID: req.body.votePlayerID })
+              .then(playerData => {
+                UserGoatCard.findById(user.userGoatCard._id)
+                .exec(function (err, userGoatCard){
+                  userGoatCard.update({
+                    goatName: playerData.playerHeadlineStats[0].playerName,
+                    goatPPG: playerData.playerHeadlineStats[0].pts,
+                    goatRPG: playerData.playerHeadlineStats[0].reb,
+                    goatAPG: playerData.playerHeadlineStats[0].ast}, function(err, updatedGoatCard){
+                  })
+                })
+              });
+            });
           } else {
             let err = new Error('User has no avaiable votes')
             console.log(err)
@@ -41,7 +59,6 @@ router.put('/newGOAT', function(req, res, next) {
               console.log(user)
               if (user.userVote === 0 && user.votePlayerID === req.body.votePlayerID) {
                 user.update({votePlayerID: '', userVote: 1}, function(err, data){
-                  console.log(data)
                 })
               } else {
                 if (user.votePlayerID !== req.body.votePlayerID) {

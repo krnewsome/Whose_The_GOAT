@@ -12,12 +12,12 @@ const UserGoatCardSchema = new mongoose.Schema({
  goatPPG: String,
  goatRPG: String,
  goatAPG: String,
- goatVotes: [
-   { type: Schema.ObjectId,
+ userVotes: [
+   {
+     type:Schema.ObjectId,
      ref: 'User'
    }
  ]
-
 });
 
 const UserGoatCard = mongoose.model('UserGoatCard', UserGoatCardSchema);
