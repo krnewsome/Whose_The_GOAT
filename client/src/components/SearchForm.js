@@ -8,7 +8,6 @@ class SearchForm extends React.Component  {
 
   onSearchChange = e => {
     console.log('onSearchChange')
-
     this.setState({ searchText: e.target.value });
   };//end of onSearchChange
 

@@ -1,6 +1,12 @@
 import React from 'react';
 
 class MyVotedGoat extends React.Component {
+
+  handleClick = e => {
+    console.log(e.target.textContent)
+    this.props.onVote(e.target.id, e.target.textContent)
+  };//end of handleClick
+
   render(props) {
     return [
       <h3 key= "1" >Top 5 Rated G.O.A.Ts</h3>,
@@ -16,16 +22,17 @@ class MyVotedGoat extends React.Component {
           <ul>
             <li>
               <div className="card">
+                <h4> Votes: {this.props.playerVoteCount} </h4>
                 <img className="card-img-top" src=".../100px180/" alt="PlayerAvatar"></img>
                 <div className="card-body">
                   <h5 className="card-title">{this.props.votedGoatName}</h5>
                   <ul>
-                    <li className="card-text">[Insert Player PPG]</li>
-                    <li>[Insert Player RPG]</li>
-                    <li>[Insert Player APG]</li>
+                    <li className="card-text">{this.props.votedGoatPPG}</li>
+                    <li>{this.props.votedGoatRPG}</li>
+                    <li>{this.props.votedGoatAPG}</li>
                   </ul>
-                  <button className="btn btn-primary">Vote up</button>
-                  <button className="btn btn-primary">Remove Vote</button>
+                  <button id= {this.props.votePlayerID} className= "btn btn-primary" onClick = {this.handleClick}>Remove Vote
+                  </button>
                 </div>
               </div>
             </li>

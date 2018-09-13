@@ -24,7 +24,7 @@ class Welcome extends React.Component {
     }
   }
 
-  
+
   // functions
   handleEWLButton = e => {
     e.preventDefault();

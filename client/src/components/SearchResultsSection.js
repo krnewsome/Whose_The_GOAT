@@ -5,7 +5,7 @@ class SearchResultsSection extends React.Component  {
   handleClick = e => {
     console.log(e.target.textContent)
     this.props.onVote(e.target.id, e.target.textContent)
-  };//end of handleSubmit
+  };//end of handleClick
 
   render (props) {
     return [
@@ -14,7 +14,7 @@ class SearchResultsSection extends React.Component  {
         <ul>
           <li>
             <div className="card">
-              <h4>[votes:]</h4>
+              <h4>[votes: {this.props.playerVoteCount}]</h4>
               <img className="card-img-top" src=".../100px180/" alt="PlayerAvatar"></img>
               <div className="card-body">
                 <h5 className="card-title">{this.props.playerName}</h5>
@@ -23,8 +23,8 @@ class SearchResultsSection extends React.Component  {
                   <li>Rebounds Per Game: {this.props.rpg}</li>
                   <li>Assit Per Game: {this.props.apg}</li>
                 </ul>
-                <button id= {this.props.votePlayerID} onClick = {this.handleClick} className="btn btn-primary">Vote up</button>
-                <button id= {this.props.votePlayerID} type='submit' onClick = {this.handleClick} className="btn btn-primary voteDown">Remove Vote</button>
+                <button id= {this.props.votePlayerID} style= { {display: this.props.buttonDisplay} } onClick = {this.handleClick} className="btn btn-primary">Vote up</button>
+                <button id= {this.props.votePlayerID} style= { {display: this.props.buttonDisplay} } type='submit' onClick = {this.handleClick} className="btn btn-primary voteDown">Remove Vote</button>
               </div>
             </div>
           </li>

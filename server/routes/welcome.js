@@ -9,16 +9,13 @@ const apiKey = require( '../../client/src/config.js');
 // Post login user
 router.post('/login', function(req, res, next) {
   if (req.body.email && req.body.email) {
-    console.log(req.body.email)
     User.authenticate(req.body.email, req.body.password, function (err, user) {
       if (err || !user) {
         const err = new Error('Wrong email or password');
         err.status = 401;
         return next(err);
       } else {
-        console.log(req.session.userId )
         req.session.userId = user._id;
-        console.log(req.session.userId )
         return res.redirect('/home');
       }
     });

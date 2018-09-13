@@ -5,18 +5,21 @@ const NBA = require("nba");
 const UserGoatCard = require('../models/userGoatCard')
 
 
-let userGoatCardID = '';
 /* GET userGoatCard. */
 router.get('/userGoatCard', function(req, res, next) {
-  console.log(req.session.userId)
   User.findById(req.session.userId)
     .populate('userGoatCard')
     .exec(function (err, user) {
       let goatcard = user.userGoatCard
-      console.log(user.userGoatCard)
-      res.send({ goatcard })
+      let goatID = user.votePlayerID
+      User.count({votePlayerID: user.votePlayerID}, function(err, count){
+        let playerVoteCount = count
+        res.send({goatcard, goatID, playerVoteCount})
+      })
+
     })
 });
+
 
 // PUT update user with voted NBA player id
 router.put('/newGOAT', function(req, res, next) {
@@ -56,27 +59,24 @@ router.put('/newGOAT', function(req, res, next) {
         User.findById(req.session.userId)
           .exec(
             function (error, user) {
-              console.log(user)
-              if (user.userVote === 0 && user.votePlayerID === req.body.votePlayerID) {
                 user.update({votePlayerID: '', userVote: 1}, function(err, data){
+                  NBA.stats.playerInfo({ PlayerID: req.body.votePlayerID })
+                  .then(playerData => {
+                    UserGoatCard.findById(user.userGoatCard._id)
+                    .exec(function (err, userGoatCard){
+                      userGoatCard.update({
+                        goatName: '',
+                        goatPPG: '',
+                        goatRPG: '',
+                        goatAPG: ''}, function(err, updatedGoatCard){
+                      })
+                    })
+                  });
                 })
-              } else {
-                if (user.votePlayerID !== req.body.votePlayerID) {
-                  let err = new Error('Please search for your GOAT first before removing Vote')
-                  console.log(err)
-                  return next (err)
-                } else {
-                  if (user.userVote !== 0) {
-                    let err = new Error('Please vote for your favorite GOAT')
-                    console.log(err)
-                    return next (err)
-                  }
-                }
-              }
+
             }
           )
       }
-    console.log(req.body)
     res.send('putrequest')
   }
 })// end of PUT

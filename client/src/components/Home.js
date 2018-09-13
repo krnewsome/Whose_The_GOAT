@@ -11,12 +11,14 @@ class Home extends React.Component {
    this.state = {
      error: null,
      isLoading: true,
+     showVotebutton: 'block',
      votePlayerID:'',
      votedGoatName:'',
      votedGoatPPG:'',
      votedGoatRPG:'',
      votedGoatAPG:'',
      playerName: '',
+     playerVoteCount: '',
      ppg:'',
      rpg:'',
      apg:'',
@@ -24,24 +26,43 @@ class Home extends React.Component {
    };
  }
 
-componentDidMount(){
+ componentDidMount(){
+   this.getGoatCard()
+ }// end of componentDidMount
+
+getGoatCard = () => {
   fetch ('/home/userGoatCard')
   .then(res => res.json())
   .then(user => {
-    console.log(user.goatcard.goatRPG)
-    this.setState({
-      votedGoatName: user.goatcard.goatRPG
-    })
+    if (user.goatID !== ''){
+      return this.setState({
+        votedGoatName: user.goatcard.goatName,
+        votedGoatPPG: user.goatcard.goatPPG,
+        votedGoatRPG: user.goatcard.goatRPG,
+        votedGoatAPG: user.goatcard.goatAPG,
+        votePlayerID: user.goatID,
+        showVotebutton: 'none',
+        playerVoteCount: user.playerVoteCount
+
+      })
+    } else {
+      return this.setState({
+        votedGoatName: user.goatcard.goatName,
+        votedGoatPPG: user.goatcard.goatPPG,
+        votedGoatRPG: user.goatcard.goatRPG,
+        votedGoatAPG: user.goatcard.goatAPG,
+        votePlayerID: user.goatID,
+      })
+    }
   })
   .catch(error => console.error('Error:', error));
-}// end of componentDidMount
+}
 
   //perform search for player
   performSearch = (playerName) => {
     let player = NBA.findPlayer(playerName)
     NBA.stats.playerInfo({ PlayerID: player.playerId })
     .then(data => {
-      console.log()
       this.setState({
         playerName: data.commonPlayerInfo[0].displayFirstLast,
         ppg: data.playerHeadlineStats[0].pts,
@@ -52,6 +73,8 @@ componentDidMount(){
     });
   }
 
+
+
   userVote = (votePlayerID, voteButtonType) => {
     fetch ('/home/newGOAT', {
       method: "PUT",
@@ -60,18 +83,24 @@ componentDidMount(){
         'Content-Type': 'application/json'
       }
     })//end of fetch
-    .then(res => console.log('Sucess', res))
+    .then(res =>{
+      console.log('Sucess', res)
+    })
     .catch(error => console.error('Error:', error));
   }// end of userVote
 
   removeUserVote = (votePlayerID) => {
+
     fetch ('/home/removeGOAT', {
       method: "PUT",
       headers:{
         'Content-Type': 'application/json'
       }
     })//end of fetch
-    .then(res => console.log('Sucess', res))
+    .then(res => {
+      this.getGoatCard()
+      console.log('Sucess', res)
+    })
     .catch(error => console.error('Error:', error));
   }// end of removeUserVote
 
@@ -102,16 +131,30 @@ componentDidMount(){
         <div  key= "3" className="row">
           <div className="col hCol-4">
             <div className= 'searchResults'>
-              <SearchResultsSection onVote= {this.userVote} removeVote= {this.removeUserVote} votePlayerID= {this.state.votePlayerID} playerName= {this.state.playerName} ppg={this.state.ppg} rpg= {this.state.rpg} apg= {this.state.apg} />
+              <SearchResultsSection
+                playerVoteCount= {this.playerVoteCount}
+                buttonDisplay= {this.state.showVotebutton}
+                onVote= {this.userVote}
+                votePlayerID= {this.state.votePlayerID}
+                playerName= {this.state.playerName}
+                ppg={this.state.ppg}
+                rpg= {this.state.rpg}
+                apg= {this.state.apg}
+              />
             </div>
           </div>
           <div key= "4" className="col-4 hCol-2">
             <div className= 'myVotedGoat'>
               <MyVotedGoat
+              buttonDisplay= {this.state.showVotebutton}
+              playerVoteCount= {this.state.playerVoteCount}
+              onVote= {this.userVote}
+              votePlayerID= {this.state.votePlayerID}
               votedGoatName = {this.state.votedGoatName}
               votedGoatPPG = {this.state.votedGoatPPG}
               votedGoatRPG = {this.state.votedGoatRPG}
-              votedGoatAPG = {this.state.votedGoatAPG}/>
+              votedGoatAPG = {this.state.votedGoatAPG}
+              />
             </div>
           </div>
         </div>
