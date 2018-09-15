@@ -7,18 +7,33 @@ const UserGoatCard = require('../models/userGoatCard')
 
 /* GET userGoatCard. */
 router.get('/userGoatCard', function(req, res, next) {
-  User.findById(req.session.userId)
-    .populate('userGoatCard')
-    .exec(function (err, user) {
-      let goatcard = user.userGoatCard
-      let goatID = user.votePlayerID
-      User.count({votePlayerID: user.votePlayerID}, function(err, count){
-        let playerVoteCount = count
-        res.send({goatcard, goatID, playerVoteCount})
-      })
+  if(req.session.userId){
+    User.findById(req.session.userId)
+      .populate('userGoatCard')
+      .exec(function (err, user) {
+        let goatcard = user.userGoatCard
+        let goatID = user.votePlayerID
+        User.count({votePlayerID: user.votePlayerID}, function(err, count){
+          let playerVoteCount = count
+          res.send({goatcard, goatID, playerVoteCount})
+        })
 
-    })
+      })
+  }
 });
+
+/* post Search Player Votes */
+router.post('/playerVotes', function(req, res, next) {
+  let player = NBA.findPlayer(req.body.playerName)
+  NBA.stats.playerInfo({ PlayerID: player.playerId })
+  .then(playerStats => {
+    User.count({votePlayerID: player.plareId}, function(err, count){
+      let searchPlayerVoteCount = count
+      res.send({playerStats, searchPlayerVoteCount})
+    })// end of count
+  })
+});
+
 
 
 // PUT update user with voted NBA player id

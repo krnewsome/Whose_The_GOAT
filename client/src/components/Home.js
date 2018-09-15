@@ -18,6 +18,7 @@ class Home extends React.Component {
      votedGoatRPG:'',
      votedGoatAPG:'',
      playerName: '',
+     searchPlayerVoteCount: '',
      playerVoteCount: '',
      ppg:'',
      rpg:'',
@@ -60,17 +61,25 @@ getGoatCard = () => {
 
   //perform search for player
   performSearch = (playerName) => {
-    let player = NBA.findPlayer(playerName)
-    NBA.stats.playerInfo({ PlayerID: player.playerId })
+    fetch ('/home/playerVotes', {
+      method: "POST",
+      body: JSON.stringify({playerName}),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })// end of fetch
+    .then(res => res.json())
     .then(data => {
+      console.log(data.playerStats.playerHeadlineStats[0].pts)
       this.setState({
-        playerName: data.commonPlayerInfo[0].displayFirstLast,
-        ppg: data.playerHeadlineStats[0].pts,
-        rpg: data.playerHeadlineStats[0].reb,
-        apg: data.playerHeadlineStats[0].ast,
-        votePlayerID: data.commonPlayerInfo[0].personId,
+        searchPlayerVoteCount: data.searchPlayerVoteCount,
+        playerName: data.playerStats.playerHeadlineStats[0].playerName,
+        ppg: data.playerStats.playerHeadlineStats[0].pts,
+        rpg: data.playerStats.playerHeadlineStats[0].reb,
+        apg: data.playerStats.playerHeadlineStats[0].ast,
+        votePlayerID: data.playerStats.playerHeadlineStats[0].personId,
       })
-    });
+    })
   }
 
 
@@ -132,7 +141,7 @@ getGoatCard = () => {
           <div className="col hCol-4">
             <div className= 'searchResults'>
               <SearchResultsSection
-                playerVoteCount= {this.playerVoteCount}
+                searchPlayerVoteCount= {this.state.searchPlayerVoteCount}
                 buttonDisplay= {this.state.showVotebutton}
                 onVote= {this.userVote}
                 votePlayerID= {this.state.votePlayerID}

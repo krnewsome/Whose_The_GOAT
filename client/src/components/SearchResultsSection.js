@@ -14,7 +14,7 @@ class SearchResultsSection extends React.Component  {
         <ul>
           <li>
             <div className="card">
-              <h4>[votes: {this.props.playerVoteCount}]</h4>
+              <h4>Votes: {this.props.searchPlayerVoteCount}</h4>
               <img className="card-img-top" src=".../100px180/" alt="PlayerAvatar"></img>
               <div className="card-body">
                 <h5 className="card-title">{this.props.playerName}</h5>
