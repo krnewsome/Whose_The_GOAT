@@ -29,7 +29,17 @@ class Home extends React.Component {
 
  componentDidMount(){
    this.getGoatCard()
+   this.getTopGoats()
  }// end of componentDidMount
+
+getTopGoats = () => {
+  fetch('/home/topGoats')
+  .then(res => res.json())
+  .then(user => {
+    console.log(user)
+  })
+}
+
 
 getGoatCard = () => {
   fetch ('/home/userGoatCard')
@@ -70,14 +80,13 @@ getGoatCard = () => {
     })// end of fetch
     .then(res => res.json())
     .then(data => {
-      console.log(data.playerStats.playerHeadlineStats[0].pts)
       this.setState({
         searchPlayerVoteCount: data.searchPlayerVoteCount,
         playerName: data.playerStats.playerHeadlineStats[0].playerName,
         ppg: data.playerStats.playerHeadlineStats[0].pts,
         rpg: data.playerStats.playerHeadlineStats[0].reb,
         apg: data.playerStats.playerHeadlineStats[0].ast,
-        votePlayerID: data.playerStats.playerHeadlineStats[0].personId,
+        votePlayerID: data.playerStats.playerHeadlineStats[0].playerId,
       })
     })
   }
@@ -98,20 +107,20 @@ getGoatCard = () => {
     .catch(error => console.error('Error:', error));
   }// end of userVote
 
-  removeUserVote = (votePlayerID) => {
-
-    fetch ('/home/removeGOAT', {
-      method: "PUT",
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    })//end of fetch
-    .then(res => {
-      this.getGoatCard()
-      console.log('Sucess', res)
-    })
-    .catch(error => console.error('Error:', error));
-  }// end of removeUserVote
+  // removeUserVote = (votePlayerID) => {
+  //
+  //   fetch ('/home/removeGOAT', {
+  //     method: "PUT",
+  //     headers:{
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })//end of fetch
+  //   .then(res => {
+  //     this.getGoatCard()
+  //     console.log('Sucess', res)
+  //   })
+  //   .catch(error => console.error('Error:', error));
+  // }// end of removeUserVote
 
   render(){
 

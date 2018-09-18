@@ -3,7 +3,7 @@ import React from 'react';
 class SearchResultsSection extends React.Component  {
 
   handleClick = e => {
-    console.log(e.target.textContent)
+    console.log(e.target.textContent, e.target.id)
     this.props.onVote(e.target.id, e.target.textContent)
   };//end of handleClick
 

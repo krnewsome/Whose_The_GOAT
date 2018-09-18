@@ -22,12 +22,38 @@ router.get('/userGoatCard', function(req, res, next) {
   }
 });
 
+/* GET top 5 Goat names/votes. */
+router.get('/topGoats', function(req, res, next) {
+  let votePlayerGoatArray =[];
+  let top5RatedGoats = [];
+    User.find({}, function (err, users){
+      users.map(user => {
+        if(user.votePlayerID){
+          if(votePlayerGoatArray.length === 0){
+            votePlayerGoatArray.push({goatID: user.votePlayerID, voteCount: 1})
+          } else {
+            votePlayerGoatArray.forEach(function(votePlayerID){
+              if(user.votePlayerID !== votePlayerID.goatID){
+              votePlayerGoatArray.push({goatID: user.votePlayerID,  voteCount: 1})
+            } else {
+              votePlayerID.voteCount ++
+            }
+            })
+          }
+        }// end of if
+      })//end of map
+      console.log(votePlayerGoatArray)
+      res.send(votePlayerGoatArray)
+    })
+});
+
+
 /* post Search Player Votes */
 router.post('/playerVotes', function(req, res, next) {
   let player = NBA.findPlayer(req.body.playerName)
   NBA.stats.playerInfo({ PlayerID: player.playerId })
   .then(playerStats => {
-    User.count({votePlayerID: player.plareId}, function(err, count){
+    User.count({votePlayerID: player.playerId}, function(err, count){
       let searchPlayerVoteCount = count
       res.send({playerStats, searchPlayerVoteCount})
     })// end of count
