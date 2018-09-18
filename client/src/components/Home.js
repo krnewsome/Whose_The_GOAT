@@ -4,7 +4,6 @@ import SearchForm from './SearchForm';
 import SearchResultsSection from './SearchResultsSection';
 const NBA = require("nba");
 
-
 class Home extends React.Component {
   constructor(props) {
    super(props);
@@ -23,7 +22,6 @@ class Home extends React.Component {
      ppg:'',
      rpg:'',
      apg:'',
-
    };
  }
 
@@ -31,6 +29,7 @@ class Home extends React.Component {
    this.getGoatCard()
    this.getTopGoats()
  }// end of componentDidMount
+
 
 getTopGoats = () => {
   fetch('/home/topGoats')
@@ -90,8 +89,6 @@ getGoatCard = () => {
       })
     })
   }
-
-
 
   userVote = (votePlayerID, voteButtonType) => {
     fetch ('/home/newGOAT', {

@@ -3,6 +3,8 @@ const router = express.Router();
 const User = require('../models/user');
 const NBA = require("nba");
 const UserGoatCard = require('../models/userGoatCard')
+const apiKey = require("../../client/src/config")
+var app = express();
 
 
 /* GET userGoatCard. */
@@ -22,28 +24,21 @@ router.get('/userGoatCard', function(req, res, next) {
   }
 });
 
+
 /* GET top 5 Goat names/votes. */
 router.get('/topGoats', function(req, res, next) {
-  let votePlayerGoatArray =[];
-  let top5RatedGoats = [];
-    User.find({}, function (err, users){
-      users.map(user => {
-        if(user.votePlayerID){
-          if(votePlayerGoatArray.length === 0){
-            votePlayerGoatArray.push({goatID: user.votePlayerID, voteCount: 1})
-          } else {
-            votePlayerGoatArray.forEach(function(votePlayerID){
-              if(user.votePlayerID !== votePlayerID.goatID){
-              votePlayerGoatArray.push({goatID: user.votePlayerID,  voteCount: 1})
-            } else {
-              votePlayerID.voteCount ++
-            }
-            })
-          }
-        }// end of if
-      })//end of map
-      console.log(votePlayerGoatArray)
-      res.send(votePlayerGoatArray)
+    User.find().distinct('votePlayerID', function (err, playerIDs){
+    })
+    .then(function (ids){
+      let test= []
+        User.count({votePlayerID: ids[0]}, function(err, count){
+        }).then(function(count){
+          test.push(count)
+
+        }).then(()=>{
+          console.log(test)
+          res.send(test)
+        })
     })
 });
 
@@ -114,12 +109,12 @@ router.put('/newGOAT', function(req, res, next) {
                     })
                   });
                 })
-
             }
           )
       }
     res.send('putrequest')
   }
 })// end of PUT
+
 
 module.exports = router;
