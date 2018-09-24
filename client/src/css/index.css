@@ -6,6 +6,14 @@ body {
 
 }
 
+li {
+  list-style: none;
+}
+
+img {
+  border-radius: 50%;
+}
+
 .container-fluid {
   max-width: 576px
 }

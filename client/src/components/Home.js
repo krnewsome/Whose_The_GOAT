@@ -3,7 +3,8 @@ import MyVotedGoat from './MyVotedGoat';
 import SearchForm from './SearchForm';
 import SearchResultsSection from './SearchResultsSection';
 const NBA = require("nba");
-
+const apiKey = require("../config")
+let listItems;
 class Home extends React.Component {
   constructor(props) {
    super(props);
@@ -12,24 +13,45 @@ class Home extends React.Component {
      isLoading: true,
      showVotebutton: 'block',
      votePlayerID:'',
+     votedGoatImage:'',
      votedGoatName:'',
-     votedGoatPPG:'',
-     votedGoatRPG:'',
-     votedGoatAPG:'',
+     votedGoatPosition:'',
+     votedGoatTeam: '',
+     votedGoatHeight:'',
+     votedGoatWeight:'',
+     votedGoatExperience:'',
      playerName: '',
-     searchPlayerVoteCount: '',
      playerVoteCount: '',
-     ppg:'',
-     rpg:'',
-     apg:'',
+     players: [],
+     searchTerm:'',
+     currentPage: 1,
+     playersPerPage: 10,
+     showVoteGoatCard: 'none',
    };
  }
 
  componentDidMount(){
    this.getGoatCard()
    this.getTopGoats()
+   this.getNBAPlayers();
  }// end of componentDidMount
 
+getNBAPlayers = (playerName) =>{
+  this.setState({
+    searchTerm: playerName
+  })
+  fetch(`https://api.fantasydata.net/v3/nba/stats/JSON/Players`,{
+    headers: {
+      "Ocp-Apim-Subscription-Key": apiKey.nbaKey
+    }
+  })
+  .then(res => res.json())
+  .then(nbaPlayers => {
+     this.setState({
+       players: nbaPlayers
+     })
+  })
+}
 
 getTopGoats = () => {
   fetch('/home/topGoats')
@@ -45,48 +67,36 @@ getGoatCard = () => {
   .then(res => res.json())
   .then(user => {
     if (user.goatID !== ''){
-      return this.setState({
-        votedGoatName: user.goatcard.goatName,
-        votedGoatPPG: user.goatcard.goatPPG,
-        votedGoatRPG: user.goatcard.goatRPG,
-        votedGoatAPG: user.goatcard.goatAPG,
-        votePlayerID: user.goatID,
-        showVotebutton: 'none',
+      this.setState({
         playerVoteCount: user.playerVoteCount
-
       })
-    } else {
-      return this.setState({
-        votedGoatName: user.goatcard.goatName,
-        votedGoatPPG: user.goatcard.goatPPG,
-        votedGoatRPG: user.goatcard.goatRPG,
-        votedGoatAPG: user.goatcard.goatAPG,
-        votePlayerID: user.goatID,
+      fetch(`https://api.fantasydata.net/v3/nba/stats/JSON/Player/${user.goatID}`,{
+        headers: {
+          "Ocp-Apim-Subscription-Key": apiKey.nbaKey
+        }
+      })
+      .then(res => res.json())
+      .then(nbaPlayer => {
+        console.log(nbaPlayer)
+         this.setState({
+           votedGoatName: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+           votedGoatImage: nbaPlayer.PhotoUrl,
+           votedGoatPosition: nbaPlayer.Position,
+           votedGoatTeam: nbaPlayer.Team,
+           votedGoatHeight: nbaPlayer.Height,
+           votedGoatWeight: nbaPlayer.Weight,
+           votedGoatExperience: nbaPlayer.Experience,
+           showVoteGoatCard: 'block'
+         })
       })
     }
   })
   .catch(error => console.error('Error:', error));
 }
 
-  //perform search for player
-  performSearch = (playerName) => {
-    fetch ('/home/playerVotes', {
-      method: "POST",
-      body: JSON.stringify({playerName}),
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    })// end of fetch
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        searchPlayerVoteCount: data.searchPlayerVoteCount,
-        playerName: data.playerStats.playerHeadlineStats[0].playerName,
-        ppg: data.playerStats.playerHeadlineStats[0].pts,
-        rpg: data.playerStats.playerHeadlineStats[0].reb,
-        apg: data.playerStats.playerHeadlineStats[0].ast,
-        votePlayerID: data.playerStats.playerHeadlineStats[0].playerId,
-      })
+  onPag = (pagID) => {
+    this.setState({
+      currentPage: pagID
     })
   }
 
@@ -99,25 +109,24 @@ getGoatCard = () => {
       }
     })//end of fetch
     .then(res =>{
-      console.log('Sucess', res)
-    })
+
+        if(voteButtonType === 'Vote up'){
+         this.getGoatCard()
+       } else if(voteButtonType === 'Remove Vote'){
+         this.setState({
+           votedGoatName: '',
+           votedGoatImage: '',
+           votedGoatPosition: '',
+           votedGoatTeam: '',
+           votedGoatHeight: '',
+           votedGoatWeight: '',
+           votedGoatExperience: '',
+           showVoteGoatCard: 'none',
+         })
+        }
+      })
     .catch(error => console.error('Error:', error));
   }// end of userVote
-
-  // removeUserVote = (votePlayerID) => {
-  //
-  //   fetch ('/home/removeGOAT', {
-  //     method: "PUT",
-  //     headers:{
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })//end of fetch
-  //   .then(res => {
-  //     this.getGoatCard()
-  //     console.log('Sucess', res)
-  //   })
-  //   .catch(error => console.error('Error:', error));
-  // }// end of removeUserVote
 
   render(){
 
@@ -140,35 +149,45 @@ getGoatCard = () => {
                 or the down arrow to remove your vote. Each user only is able to place one vote so choose carefully!.
                 You are able to change your vote at anytime.
               </p>
-              <SearchForm onSearch= {this.performSearch}/>
+              <SearchForm onSearch= {this.getNBAPlayers}/>
           </div>
         </div>
         <div  key= "3" className="row">
           <div className="col hCol-4">
             <div className= 'searchResults'>
               <SearchResultsSection
+                onPag= {this.onPag}
+                currentPage= {this.state.currentPage}
+                playersPerPage= {this.state.playersPerPage}
+                searchTerm= {this.state.searchTerm}
+                players= {this.state.players}
                 searchPlayerVoteCount= {this.state.searchPlayerVoteCount}
                 buttonDisplay= {this.state.showVotebutton}
                 onVote= {this.userVote}
                 votePlayerID= {this.state.votePlayerID}
                 playerName= {this.state.playerName}
-                ppg={this.state.ppg}
-                rpg= {this.state.rpg}
-                apg= {this.state.apg}
+
               />
+              <ul>
+              <li>{listItems}</li>
+              </ul>
             </div>
           </div>
           <div key= "4" className="col-4 hCol-2">
             <div className= 'myVotedGoat'>
               <MyVotedGoat
+              showVoteGoatCard= {this.state.showVoteGoatCard}
               buttonDisplay= {this.state.showVotebutton}
               playerVoteCount= {this.state.playerVoteCount}
               onVote= {this.userVote}
               votePlayerID= {this.state.votePlayerID}
               votedGoatName = {this.state.votedGoatName}
-              votedGoatPPG = {this.state.votedGoatPPG}
-              votedGoatRPG = {this.state.votedGoatRPG}
-              votedGoatAPG = {this.state.votedGoatAPG}
+              votedGoatImage = {this.state.votedGoatImage}
+              votedGoatPosition = {this.state.votedGoatPosition}
+              votedGoatTeam = {this.state.votedGoatTeam}
+              votedGoatHeight = {this.state.votedGoatHeight}
+              votedGoatWeight = {this.state.votedGoatWeight}
+              votedGoatExperience = {this.state.votedGoatExperience}
               />
             </div>
           </div>
