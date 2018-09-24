@@ -5,6 +5,7 @@ const NBA = require("nba");
 const UserGoatCard = require('../models/userGoatCard')
 const apiKey = require("../../client/src/config")
 var app = express();
+let votedGoatArray= [];
 
 
 /* GET userGoatCard. */
@@ -26,18 +27,18 @@ router.get('/userGoatCard', function(req, res, next) {
 /* GET top 5 Goat names/votes. */
 router.get('/topGoats', function(req, res, next) {
     User.find().distinct('votePlayerID', function (err, playerIDs){
+    playerIDs.forEach(function(player){
+      User.count({votePlayerID: player}, function(err, count){
+        votedGoatArray.push({pID: player, pVoteCount: count})
+      })
     })
-    .then(function (ids){
-      let test= []
-        User.count({votePlayerID: ids[0]}, function(err, count){
-        }).then(function(count){
-          test.push(count)
-
-        }).then(()=>{
-          console.log(test)
-          res.send(test)
-        })
+    votedGoatArray.sort(function (a, b) {
+      return b.pVoteCount - a.pVoteCount
     })
+    let top5VotedGoats = votedGoatArray.slice(0,4)
+    console.log(top5VotedGoats)
+    res.send({top5VotedGoats})
+  })
 });
 
 // PUT update user with voted NBA player id

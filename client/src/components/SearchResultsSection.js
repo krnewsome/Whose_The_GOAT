@@ -44,7 +44,6 @@ class SearchResultsSection extends React.Component {
   }
   const handlePagination = e => {
     this.props.onPag(Number(e.target.id))
-    console.log(Number(e.target.id))
     }
 
 let  pagination= pageNumber.map(number =>
@@ -69,26 +68,6 @@ let  pagination= pageNumber.map(number =>
           {pagination}
         </ul>
       </nav>
-      // <div key= "2" className = 'searchResultsContainer'>
-      //   <ul>
-      //     <li>
-      //       <div className="card">
-      //         <h4>Votes: {props.searchPlayerVoteCount}</h4>
-      //         <img className="card-img-top" src=".../100px180/" alt="PlayerAvatar"></img>
-      //         <div className="card-body">
-      //           <h5 className="card-title">{props.playerName}</h5>
-      //           <ul>
-      //             <li className="card-text"> Points Per Game: {props.ppg}</li>
-      //             <li>Rebounds Per Game: {props.rpg}</li>
-      //             <li>Assit Per Game: {props.apg}</li>
-      //           </ul>
-      //           <button id= {props.votePlayerID} style= { {display: props.buttonDisplay} } onClick = {this.handleClick} className="btn btn-primary">Vote up</button>
-      //           <button id= {props.votePlayerID} style= { {display: props.buttonDisplay} } type='submit' onClick = {this.handleClick} className="btn btn-primary voteDown">Remove Vote</button>
-      //         </div>
-      //       </div>
-      //     </li>
-      //   </ul>
-      // </div>
     ];
   }
 }

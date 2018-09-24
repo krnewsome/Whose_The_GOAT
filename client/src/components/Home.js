@@ -31,9 +31,9 @@ class Home extends React.Component {
  }
 
  componentDidMount(){
-   this.getGoatCard()
+   // this.getGoatCard()
    this.getTopGoats()
-   this.getNBAPlayers();
+   // this.getNBAPlayers();
  }// end of componentDidMount
 
 getNBAPlayers = (playerName) =>{
@@ -77,7 +77,6 @@ getGoatCard = () => {
       })
       .then(res => res.json())
       .then(nbaPlayer => {
-        console.log(nbaPlayer)
          this.setState({
            votedGoatName: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
            votedGoatImage: nbaPlayer.PhotoUrl,
@@ -109,7 +108,6 @@ getGoatCard = () => {
       }
     })//end of fetch
     .then(res =>{
-
         if(voteButtonType === 'Vote up'){
          this.getGoatCard()
        } else if(voteButtonType === 'Remove Vote'){
