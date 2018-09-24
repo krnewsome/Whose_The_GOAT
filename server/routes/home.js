@@ -35,7 +35,7 @@ router.get('/topGoats', function(req, res, next) {
     votedGoatArray.sort(function (a, b) {
       return b.pVoteCount - a.pVoteCount
     })
-    let top5VotedGoats = votedGoatArray.slice(0,4)
+    let top5VotedGoats = votedGoatArray.slice(0,5)
     console.log(top5VotedGoats)
     res.send({top5VotedGoats})
   })

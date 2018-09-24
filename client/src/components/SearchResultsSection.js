@@ -15,7 +15,11 @@ class SearchResultsSection extends React.Component {
   const currentPlayers = this.props.players.slice(indexOfFirstPlayer, indexOfLastPlayer);
 
   results.forEach(function(player){
-    if(currentPlayers.length > 0 && searchTerm == player.FirstName){
+
+    if(currentPlayers.length > 0 &&
+      searchTerm.toUpperCase() == player.FirstName.toUpperCase() ||
+      searchTerm.toUpperCase() == player.LastName.toUpperCase() ||
+      searchTerm.toUpperCase() == player.FirstName.toUpperCase() + ' ' + player.LastName.toUpperCase()){
       filtered.push(player)
       nbaPlayers = filtered.map((player, key) =>
         <NbaPlayerCard

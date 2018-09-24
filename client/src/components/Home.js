@@ -27,13 +27,23 @@ class Home extends React.Component {
      currentPage: 1,
      playersPerPage: 10,
      showVoteGoatCard: 'none',
+     topGoatName1: '',
+     topGoatName2: '',
+     topGoatName3: '',
+     topGoatName4: '',
+     topGoatName5: '',
+     topGoatVotes1: '',
+     topGoatVotes2: '',
+     topGoatVotes3: '',
+     topGoatVotes4: '',
+     topGoatVotes5: '',
    };
  }
 
  componentDidMount(){
-   // this.getGoatCard()
    this.getTopGoats()
-   // this.getNBAPlayers();
+   this.getGoatCard()
+   this.getNBAPlayers('');
  }// end of componentDidMount
 
 getNBAPlayers = (playerName) =>{
@@ -51,13 +61,77 @@ getNBAPlayers = (playerName) =>{
        players: nbaPlayers
      })
   })
+}// end og get NBA players
+
+// GET goat function
+getGoat = (userGoatID, userGoatVote, goatType, goatRank) => {
+  fetch(`https://api.fantasydata.net/v3/nba/stats/JSON/Player/${userGoatID}`,{
+    headers: {
+      "Ocp-Apim-Subscription-Key": apiKey.nbaKey
+    }
+  })
+  .then(res => res.json())
+  .then(nbaPlayer => {
+    console.log(goatType)
+
+    if(goatType === 'voted'){
+      this.setState({
+        votedGoatName: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+        votedGoatImage: nbaPlayer.PhotoUrl,
+        votedGoatPosition: nbaPlayer.Position,
+        votedGoatTeam: nbaPlayer.Team,
+        votedGoatHeight: nbaPlayer.Height,
+        votedGoatWeight: nbaPlayer.Weight,
+        votedGoatExperience: nbaPlayer.Experience,
+        showVoteGoatCard: 'block'
+      })
+    } else if (goatType === 'Top') {
+      if(goatRank === 1){
+        this.setState({
+          topGoatName1: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+          topGoatVotes1: userGoatVote
+        })
+      } else if (goatRank === 2){
+        this.setState({
+          topGoatName2: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+          topGoatVotes2: userGoatVote
+
+        })
+      } else if (goatRank === 3){
+        this.setState({
+          topGoatName3: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+          topGoatVotes3: userGoatVote
+
+        })
+      } else if (goatRank === 4){
+        this.setState({
+          topGoatName4: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+          topGoatVotes4: userGoatVote
+
+        })
+      } else if (goatRank === 5){
+        this.setState({
+          topGoatName5: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+          topGoatVotes5: userGoatVote
+
+        })
+      }
+    }
+  })
 }
+
 
 getTopGoats = () => {
   fetch('/home/topGoats')
   .then(res => res.json())
-  .then(user => {
-    console.log(user)
+  .then(player => {
+
+    this.getGoat(player.top5VotedGoats[0].pID, player.top5VotedGoats[0].pVoteCount, 'Top', 1)
+    this.getGoat(player.top5VotedGoats[1].pID, player.top5VotedGoats[1].pVoteCount, 'Top', 2)
+    this.getGoat(player.top5VotedGoats[2].pID, player.top5VotedGoats[2].pVoteCount,'Top', 3)
+    this.getGoat(player.top5VotedGoats[3].pID, player.top5VotedGoats[3].pVoteCount,'Top', 4)
+    this.getGoat(player.top5VotedGoats[4].pID, player.top5VotedGoats[4].pVoteCount,'Top', 5)
+    console.log(player.top5VotedGoats[0])
   })
 }
 
@@ -70,24 +144,7 @@ getGoatCard = () => {
       this.setState({
         playerVoteCount: user.playerVoteCount
       })
-      fetch(`https://api.fantasydata.net/v3/nba/stats/JSON/Player/${user.goatID}`,{
-        headers: {
-          "Ocp-Apim-Subscription-Key": apiKey.nbaKey
-        }
-      })
-      .then(res => res.json())
-      .then(nbaPlayer => {
-         this.setState({
-           votedGoatName: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-           votedGoatImage: nbaPlayer.PhotoUrl,
-           votedGoatPosition: nbaPlayer.Position,
-           votedGoatTeam: nbaPlayer.Team,
-           votedGoatHeight: nbaPlayer.Height,
-           votedGoatWeight: nbaPlayer.Weight,
-           votedGoatExperience: nbaPlayer.Experience,
-           showVoteGoatCard: 'block'
-         })
-      })
+      this.getGoat(user.goatID, '','voted','')
     }
   })
   .catch(error => console.error('Error:', error));
@@ -174,6 +231,17 @@ getGoatCard = () => {
           <div key= "4" className="col-4 hCol-2">
             <div className= 'myVotedGoat'>
               <MyVotedGoat
+              onSearch= {this.getNBAPlayers}
+              topGoatName1= {this.state.topGoatName1}
+              topGoatVotes1= {this.state.topGoatVotes1}
+              topGoatName2= {this.state.topGoatName2}
+              topGoatVotes2= {this.state.topGoatVotes2}
+              topGoatName3= {this.state.topGoatName3}
+              topGoatVotes3= {this.state.topGoatVotes3}
+              topGoatName4= {this.state.topGoatName4}
+              topGoatVotes4= {this.state.topGoatVotes4}
+              topGoatName5= {this.state.topGoatName5}
+              topGoatVotes5= {this.state.topGoatVotes5}
               showVoteGoatCard= {this.state.showVoteGoatCard}
               buttonDisplay= {this.state.showVotebutton}
               playerVoteCount= {this.state.playerVoteCount}

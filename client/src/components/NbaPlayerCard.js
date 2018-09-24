@@ -26,7 +26,6 @@ class NbaPlayerCard extends React.Component {
             <p class="card-text">Height: {this.props.playerHeight}</p>
             <p class="card-text">Weight: {this.props.playerWeight}</p>
             <button id= {this.props.votePlayerID} style= { {display: this.props.buttonDisplay} } onClick = {handleClick} className="btn btn-primary">Vote up</button>
-            <button id= {this.props.votePlayerID} style= { {display: this.props.buttonDisplay} } type='submit' onClick = {this.handleClick} className="btn btn-primary voteDown">Remove Vote</button>
           </div>
       </div>
     </li>

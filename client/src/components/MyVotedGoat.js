@@ -7,15 +7,21 @@ class MyVotedGoat extends React.Component {
     this.props.onVote(e.target.id, e.target.textContent)
   };//end of handleClick
 
+  handleGoatLink = e => {
+    console.log(e.target.textContent)
+    this.props.onSearch(e.target.textContent)
+  }
+
+
   render(props) {
     return [
       <h3 key= "1" >Top 5 Rated G.O.A.Ts</h3>,
         <ul key= "2" >
-          <li> Kobe [insert votes] </li>
-          <li> Lebron [insert votes] </li>
-          <li> KD  [insert votes] </li>
-          <li> Curry [insert votes] </li>
-          <li> Shack [insert votes] </li>
+          <button onClick={this.handleGoatLink}> <strong>{this.props.topGoatName1}</strong> </button> <p>Votes: {this.props.topGoatVotes1}</p>
+          <button onClick={this.handleGoatLink}> <strong>{this.props.topGoatName2}</strong> </button> <p>Votes: {this.props.topGoatVotes2}</p>
+          <button onClick={this.handleGoatLink}> <strong>{this.props.topGoatName3}</strong> </button> <p>Votes: {this.props.topGoatVotes3}</p>
+          <button onClick={this.handleGoatLink}> <strong>{this.props.topGoatName4}</strong> </button> <p>Votes: {this.props.topGoatVotes4}</p>
+          <button onClick={this.handleGoatLink}> <strong>{this.props.topGoatName5}</strong> </button> <p>Votes: {this.props.topGoatVotes5}</p>
         </ul>,
         <div key= "3" className = 'userVotedGOAT' style={{display: this.props.showVoteGoatCard}}>
           <h4> My Voted G.O.A.T </h4>
