@@ -26,13 +26,6 @@ const UserSchema = new mongoose.Schema({
 
   votePlayerID: String,
 
-  userGoatCard:
-    {
-      type: Schema.ObjectId,
-      ref: 'UserGoatCard',
-    },
-
-
   userVote: Number,
 
   photo: {

@@ -2,26 +2,25 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const NBA = require("nba");
-const UserGoatCard = require('../models/userGoatCard')
+// const UserGoatCard = require('../models/userGoatCard')
 const apiKey = require("../../client/src/config")
 var app = express();
 let votedGoatArray= [];
 
 
 /* GET userGoatCard. */
-router.get('/userGoatCard', function(req, res, next) {
-  if(req.session.userId){
-    User.findById(req.session.userId)
-      .exec(function (err, user) {
-        let goatID = user.votePlayerID
-        User.count({votePlayerID: user.votePlayerID}, function(err, count){
-          let playerVoteCount = count
-          res.send({goatID, playerVoteCount})
-        })
-
-      })
-  }
-});
+// router.get('/userGoatCard', function(req, res, next) {
+//   if(req.session.userId){
+//     User.findById(req.session.userId)
+//       .exec(function (err, user) {
+//         let goatID = user.votePlayerID
+//         User.count({votePlayerID: user.votePlayerID}, function(err, count){
+//           let playerVoteCount = count
+//           res.send({goatID, playerVoteCount})
+//         })
+//       })
+//   }
+// });
 
 
 /* GET top 5 Goat names/votes. */
@@ -37,7 +36,6 @@ router.get('/topGoats', function(req, res, next) {
     votedGoatArray.sort(function (a, b) {
       return b.pVoteCount - a.pVoteCount
     })
-      console.log(votedGoatArray.length)
         let top5VotedGoats = votedGoatArray.slice(0,5)
         // console.log(top5VotedGoats)
         res.send({top5VotedGoats})

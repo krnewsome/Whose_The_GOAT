@@ -26,7 +26,7 @@ class FormFields extends React.Component {
         </div>,
         <div key = '5' className={this.props.divClassName}>
           <label htmlFor="passwordInput2">Confirm Password</label>
-          <input type="password" className="htmlForm-control mx-auto" name= "password2" id="passwordInput2" placeholder="Confirm Password"/>
+          <input type="password" className="form-control mx-auto" name= "password2" id="passwordInput2" placeholder="Confirm Password"/>
         </div>
     ]// end of return
   }
