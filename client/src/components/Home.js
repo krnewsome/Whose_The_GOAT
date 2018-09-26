@@ -86,30 +86,30 @@ getGoat = (userGoatID, userGoatVote, goatType, goatRank) => {
         showVoteGoatCard: 'block'
       })
     } else if (goatType === 'Top') {
-      if(goatRank === 1){
+      if(goatRank === 0){
         this.setState({
           topGoatName1: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
           topGoatVotes1: userGoatVote
         })
-      } else if (goatRank === 2){
+      } else if (goatRank === 1){
         this.setState({
           topGoatName2: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
           topGoatVotes2: userGoatVote
 
         })
-      } else if (goatRank === 3){
+      } else if (goatRank === 2){
         this.setState({
           topGoatName3: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
           topGoatVotes3: userGoatVote
 
         })
-      } else if (goatRank === 4){
+      } else if (goatRank === 3){
         this.setState({
           topGoatName4: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
           topGoatVotes4: userGoatVote
 
         })
-      } else if (goatRank === 5){
+      } else if (goatRank === 4){
         this.setState({
           topGoatName5: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
           topGoatVotes5: userGoatVote
@@ -125,13 +125,10 @@ getTopGoats = () => {
   fetch('/home/topGoats')
   .then(res => res.json())
   .then(player => {
-
-    this.getGoat(player.top5VotedGoats[0].pID, player.top5VotedGoats[0].pVoteCount, 'Top', 1)
-    this.getGoat(player.top5VotedGoats[1].pID, player.top5VotedGoats[1].pVoteCount, 'Top', 2)
-    this.getGoat(player.top5VotedGoats[2].pID, player.top5VotedGoats[2].pVoteCount,'Top', 3)
-    this.getGoat(player.top5VotedGoats[3].pID, player.top5VotedGoats[3].pVoteCount,'Top', 4)
-    this.getGoat(player.top5VotedGoats[4].pID, player.top5VotedGoats[4].pVoteCount,'Top', 5)
-    console.log(player.top5VotedGoats[0])
+    for (let i = 0; i < player.top5VotedGoats.length; i++){
+      this.getGoat(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, 'Top', i)
+      console.log(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, i)
+    }
   })
 }
 
