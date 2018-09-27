@@ -3,7 +3,7 @@ body {
   padding: 0;
   font-family: sans-serif;
   margin-top: 100px;
-
+  background-image: url('../images/welcomeBackground.jpg')
 }
 
 li {
@@ -50,18 +50,54 @@ img {
   margin-right: 25%;
 }
 
+.container {
+  background-image: url('../images/woodPattern.png');
+}
+
 .hCol-1 {
-  background-color: green;
+  color: white;
+  background: rgba(76, 175, 80, 0.3);
+  border-style: ridge;
 }
 
 .hCol-2 {
-  background-color: blue;
+  color: white;
+  background: rgba(76, 175, 80, 0.3);
+  border-style: ridge;
 }
 
 .hCol-3 {
-  background-color: yellow;
+  color: white;
+  background: rgba(76, 175, 80, 0.3);
+  border-style: ridge;
 }
 
 .hCol-4 {
-  background-color: lightblue;
+  color: white;
+  background: rgba(76, 175, 80, 0.3);
+  background-image: url('../images/woodPattern.png');
+  border-style: ridge;
+}
+
+#whoseTheGoatTitle {
+  font-weight: bold;
+  color: white;
+  background: rgba(76, 175, 80, 0.1);
+  background-image: url('../images/woodPattern.png');
+}
+
+#loginForm {
+color: white;
+font-weight: bold;
+background: rgba(76, 175, 80, 0.1);
+background-image: url('../images/woodPattern.png');
+}
+
+#navBar {
+  background: rgba(76, 175, 80, 0.1);
+  background-image: url('../images/woodPattern.png');
+}
+
+#linkewl {
+  color: white
 }

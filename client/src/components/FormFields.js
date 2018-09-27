@@ -14,7 +14,7 @@ class FormFields extends React.Component {
         <div key = '2' className="form-group" >
           <label htmlFor="emailInput">Email address</label>
           <input type="email" className="form-control mx-auto" id="emailInput" name= "email" aria-describedby="emailHelp" placeholder="Enter email"/>
-          <small id="emailHelp" className="form-text text-muted font-italic">We will never share your email with anyone else.</small>
+          <small id="emailHelp" className="form-text  font-italic" style={{color: 'white'}}>We will never share your email with anyone else.</small>
         </div>,
         <div key = '3' className={this.props.divClassName}>
           <label htmlFor="userZipInput">User Zip Code</label>

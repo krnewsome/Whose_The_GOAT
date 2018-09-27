@@ -20,11 +20,16 @@ class NbaPlayerCard extends React.Component {
       <div class="card">
         <img class="card-img-top" src={this.props.playerPhoto} alt='Image of NBA player'></img>
           <div class="card-body">
-            <h5 class="card-title">Name: {this.props.name}</h5>
-            <p class="card-text">Position: {this.props.playerPosition}</p>
-            <p class="card-text">Team: {this.props.playerTeam}</p>
-            <p class="card-text">Height: {this.props.playerHeight}</p>
-            <p class="card-text">Weight: {this.props.playerWeight}</p>
+            <h5 class="card-title"><u>{this.props.name}</u></h5>
+            <div class="containerNBAStats">
+              <div class="row">
+                <div class="col"><p class="card-text">Team: {this.props.playerTeam}</p></div>
+                <div class="col"><p class="card-text">Position: {this.props.playerPosition}</p></div>
+                <div class="w-100"></div>
+                <div class="col"> <p class="card-text">Height: {this.props.playerHeight}</p></div>
+                <div class="col"><p class="card-text">Weight: {this.props.playerWeight}</p></div>
+              </div>
+            </div>
             <button id= {this.props.votePlayerID} style= { {display: this.props.buttonDisplay} } onClick = {handleClick} className="btn btn-primary">Vote up</button>
           </div>
       </div>

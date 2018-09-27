@@ -31,13 +31,16 @@ class MyVotedGoat extends React.Component {
                 <h4> Votes: {this.props.playerVoteCount} </h4>
                 <img className="card-img-top" src={this.props.votedGoatImage} alt="voted GOAT image"></img>
                 <div className="card-body">
-                  <h5 className="card-title">{this.props.votedGoatName}</h5>
-                  <ul>
-                    <li className="card-text">Team: {this.props.votedGoatTeam}</li>
-                    <li>Years in the NBA: {this.props.votedGoatExperience}</li>
-                    <li>Height: {this.props.votedGoatHeight}</li>
-                    <li>Wieght: {this.props.votedGoatWeight}</li>
-                  </ul>
+                  <h5 className="card-title"><u>{this.props.votedGoatName}</u></h5>
+                  <div class="containerNBAStats">
+                    <div class="row">
+                      <div class="col"><p class="card-text">Team: {this.props.votedGoatTeam}</p></div>
+                      <div class="col"><p class="card-text">NBA Exp: {this.props.votedGoatExperience}</p></div>
+                      <div class="w-100"></div>
+                      <div class="col"> <p class="card-text">Height: {this.props.votedGoatHeight}</p></div>
+                      <div class="col"><p class="card-text">Weight: {this.props.votedGoatWeight}</p></div>
+                    </div>
+                  </div>
                   <button id= {this.props.votePlayerID} className= "btn btn-primary" onClick = {this.handleClick}>Remove Vote
                   </button>
                 </div>

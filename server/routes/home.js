@@ -9,31 +9,35 @@ let votedGoatArray= [];
 
 
 /* GET userGoatCard. */
-// router.get('/userGoatCard', function(req, res, next) {
-//   if(req.session.userId){
-//     User.findById(req.session.userId)
-//       .exec(function (err, user) {
-//         let goatID = user.votePlayerID
-//         User.count({votePlayerID: user.votePlayerID}, function(err, count){
-//           let playerVoteCount = count
-//           res.send({goatID, playerVoteCount})
-//         })
-//       })
-//   }
-// });
+router.get('/userGoatCard', function(req, res, next) {
+  if(req.session.userId){
+    User.findById(req.session.userId)
+      .exec(function (err, user) {
+        let goatID = user.votePlayerID
+        User.count({votePlayerID: user.votePlayerID}, function(err, count){
+          let playerVoteCount = count
+          res.send({goatID, playerVoteCount})
+        })
+      })
+  }
+});
 
 
 /* GET top 5 Goat names/votes. */
 router.get('/topGoats', function(req, res, next) {
     User.find().distinct('votePlayerID', function (err, playerIDs){
     playerIDs.forEach(function(player){
-      User.count({votePlayerID: player}, function(err, count){
-        if(votedGoatArray.length < 5){
-          votedGoatArray.push({pID: player, pVoteCount: count})
-        }
-      })
+      if(player !== ''){
+        User.count({votePlayerID: player}, function(err, count){
+          if(votedGoatArray.length < 5){
+            votedGoatArray.push({pID: player, pVoteCount: count})
+          }
+        })
+      }
+
     })
     votedGoatArray.sort(function (a, b) {
+      console.log(votedGoatArray)
       return b.pVoteCount - a.pVoteCount
     })
         let top5VotedGoats = votedGoatArray.slice(0,5)

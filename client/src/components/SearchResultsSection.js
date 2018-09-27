@@ -63,7 +63,7 @@ let  pagination= pageNumber.map(number =>
 
     return [
       <h1 key= "1"     onClick = {this.handlePagination}
-> Search Results </h1>,
+> <u>Search Results </u></h1>,
       <ul>
       {nbaPlayers}
       </ul>,

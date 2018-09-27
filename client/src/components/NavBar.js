@@ -49,7 +49,7 @@ class NavBar extends React.Component  {
 
   render(){
     return [
-      <nav className="navbar navbar-dark bg-warning fixed-top ">
+      <nav id= 'navBar' className="navbar navbar-dark fixed-top ">
         <Link className="navbar-brand" to="/">
           G.O.A.T
         </Link>

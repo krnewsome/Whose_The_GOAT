@@ -14,7 +14,7 @@ class Welcome extends React.Component {
     this.state = {
       isLoggedin: false,
       showSignin: true,
-      className: "shadow-sm p-3 m-5 bg-white rounded",
+      className: "shadow-sm p-3 m-5 rounded",
       eWlButtonclassName: "btn btn-outline-warning",
       userNameInput: "form-group nameDiv",
       eWlButtonText: "Enter without Logining in",
@@ -37,7 +37,7 @@ class Welcome extends React.Component {
     handleSignUpButton = e => {
       e.preventDefault();
         this.setState({
-          className: "transformDelayOut shadow-sm p-3 m-5 bg-warning rounded ",
+          className: "transformDelayOut shadow-sm p-3 m-5 rounded ",
           eWlButtonclassName: "transformDelayOut my-4 btn btn-success",
           userNameInput:'transformDelayIn form-group nameDiv',
           divClassName: 'form-group',
@@ -50,17 +50,17 @@ class Welcome extends React.Component {
   render(){
 
     return (
-    <div className = 'container-fluid p-3 mb-2 bg-success text-dark' >
-      <h1 className = "my-4 jumbotron display-4 shadow-lg p-3 mb-5 bg-white rounded"> Whose the G.O.A.T </h1>
+    <div className = 'container-fluid p-3 mb-2 text-dark' >
+      <h1 id= 'whoseTheGoatTitle' className = "my-4 jumbotron display-4 shadow-lg p-3 mb-5 rounded"> Whose the G.O.A.T </h1>
         <form
         id = "loginForm"
         method = "post"
         action = {this.state.formButtonAction}
         className = {this.state.className}
         >
-          <h3> Welcome </h3>
+          <h3><strong> Welcome </strong></h3>
           <p className = {this.state.eWlButtonclassName} id = 'eWlButton'>
-            <Link className="navbar-brand" to='/home' >{this.state.eWlButtonText}</Link>
+            <Link id='linkewl' className="navbar-brand" to='/home' >{this.state.eWlButtonText}</Link>
           </p>
           <ErrorBoundary>
             <CSSTransitionGroup

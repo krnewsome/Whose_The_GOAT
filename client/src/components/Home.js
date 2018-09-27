@@ -133,19 +133,19 @@ getTopGoats = () => {
 }
 
 
-// getGoatCard = () => {
-//   fetch ('/home/userGoatCard')
-//   .then(res => res.json())
-//   .then(user => {
-//     if (user.goatID !== ''){
-//       this.setState({
-//         playerVoteCount: user.playerVoteCount
-//       })
-//       this.getGoat(user.goatID, '','voted','')
-//     }
-//   })
-//   .catch(error => console.error('Error:', error));
-// }
+getGoatCard = () => {
+  fetch ('/home/userGoatCard')
+  .then(res => res.json())
+  .then(user => {
+    if (user.goatID !== ''){
+      this.setState({
+        playerVoteCount: user.playerVoteCount
+      })
+      this.getGoat(user.goatID, '','voted','')
+    }
+  })
+  .catch(error => console.error('Error:', error));
+}
 
   onPag = (pagID) => {
     this.setState({
