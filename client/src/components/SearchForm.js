@@ -1,23 +1,28 @@
+/*---------- IMPORTS ----------*/
 import React from 'react';
 
+/*---------- SEARCHFORM CLASS COMPONENT----------*/
 class SearchForm extends React.Component  {
 
   state = {
     searchText: '',
-  }//end of state
+  }// END OF STATE
 
+  // onSearchChange function
   onSearchChange = e => {
     this.setState({ searchText: e.target.value });
-  };//end of onSearchChange
+  };// END OF ONSEARCHCHANGE FUNCTION
 
+  // handleSubmit function
   handleSubmit = e => {
     e.preventDefault();
     this.props.onSearch(this.searchTag.value)
     e.currentTarget.reset();
-  };//end of handleSubmit
+  };// END OF HANDLESUBMIT FUNCTION
 
-
+  // RENDER
   render (props) {
+
     return [
       <h3 key= "1" > Search Your G.O.A.T! </h3>,
       <form
@@ -38,8 +43,9 @@ class SearchForm extends React.Component  {
 
         </div>
       </form>
-    ];
-  }
-}
+    ];// END OF RETURN
+  }// END OF RENDER
+}// END OF SEARCHFORM CLASS COMPONENT
 
+/*---------- EXPORTS ----------*/
 export default SearchForm;

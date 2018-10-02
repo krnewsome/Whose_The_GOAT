@@ -1,10 +1,11 @@
+/*--------- IMPORTS ----------*/
 import React from 'react';
 import {Link} from 'react-router-dom';
 import WeatherSection from './WeatherSection';
-const apiKey = require("../config")
+const apiKey = require("../config");
 
 
-/* NavBar Component */
+/*--------- NAVBAR CLASS COMPONENT ----------*/
 class NavBar extends React.Component  {
   constructor(props) {
    super(props);
@@ -16,22 +17,22 @@ class NavBar extends React.Component  {
      weatherTemp:'',
      weatherHumidity: '',
      weatherDescription:'',
+   };// END OF STATE
+ }// END OF CONSTRUCTOR
 
-   };
-  }
-
-  componentDidMount(){
-  }
-
+  // onSearchChange function
   onSearchChange = e => {
     this.setState({ weatherZip: e.target.value });
-  };//end of onSearchChange
+  };// END OF ONSEARCHCHANGE
 
+  // on handleSubmit function
   handleSubmit = e => {
     e.preventDefault();
     this.getWeather(this.searchTag.value)
     e.currentTarget.reset();
-  };//end of handleSubmit
+  };// END OF HANDLE SUBMIT
+
+  // GET weather function
   getWeather = (zip) =>{
     fetch(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&APPID=${apiKey.key}`)
     .then(res => res.json())
@@ -42,12 +43,13 @@ class NavBar extends React.Component  {
         weatherHumidity:weather.main.humidity,
         weatherDescription:weather.weather[0].description,
         cityName: weather.name,
-      })
-    })
+      })// END OF SET STATE
+    })// END OF THEN
+  }// END OF GET WEATHER FUNCTION
 
-  }
-
+  // RENDER
   render(){
+
     return [
       <nav id= 'navBar' className="navbar navbar-dark fixed-top ">
         <Link className="navbar-brand" to="/">
@@ -60,20 +62,20 @@ class NavBar extends React.Component  {
           weatherDescription= {this.state.weatherDescription}
         />
       </nav>,
-      <div class="container-fluid">
+      <div className="container-fluid">
         <div className="card-header">
-          <div class="input-group input-group-sm mb-3">
+          <div className="input-group input-group-sm mb-3">
         </div>
         <form
           className = 'searchForm'
           onSubmit={this.handleSubmit}
           key= "2"
         >
-          <div class="input-group-prepend">
-          <button class="input-group-text" type="submit" id="inputGroup-sizing-sm">Enter Zip Code </button>
+          <div className="input-group-prepend">
+          <button className="input-group-text" type="submit" id="inputGroup-sizing-sm">Enter Zip Code </button>
           <input
               type="text"
-              class="form-control"
+              className="form-control"
               aria-label="Sizing example input"
               aria-describedby="inputGroup-sizing-sm"
               onChange={this.onSearchChange}
@@ -86,8 +88,9 @@ class NavBar extends React.Component  {
           </form>
         </div>
       </div>
-    ];
-  }
-}
+    ];// END OF RETURN
+  }// END OF RENDER
+}// END OF NAVBAR CLASS COMPONENT
 
+/*--------- EXPORTS ----------*/
 export default NavBar;

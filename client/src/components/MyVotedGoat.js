@@ -1,19 +1,22 @@
+/*--------- IMPORTS ----------*/
 import React from 'react';
 
+/*--------- MYVOTEDGOAT CLASS COMPONENT ----------*/
 class MyVotedGoat extends React.Component {
 
+  // handle click function
   handleClick = e => {
-    console.log(e.target.textContent)
     this.props.onVote(e.target.id, e.target.textContent)
-  };//end of handleClick
+  };// END OF HANDLE CLICK
 
+  // handle goatName link function
   handleGoatLink = e => {
-    console.log(e.target.textContent)
     this.props.onSearch(e.target.textContent)
-  }
+  }// END OF HANDLE GOATNAME LINK
 
-
+  // RENDER
   render(props) {
+
     return [
       <h3 key= "1" >Top 5 Rated G.O.A.Ts</h3>,
         <ul key= "2" >
@@ -27,9 +30,9 @@ class MyVotedGoat extends React.Component {
           <h4> My Voted G.O.A.T </h4>
           <ul>
             <li>
-              <div className="card">
+              <div id= 'nbaPlayerCardText' className="card">
                 <h4> Votes: {this.props.playerVoteCount} </h4>
-                <img className="card-img-top" src={this.props.votedGoatImage} alt="voted GOAT image"></img>
+                <img className="card-img-top" src={this.props.votedGoatImage} alt="Voted GOAT "></img>
                 <div className="card-body">
                   <h5 className="card-title"><u>{this.props.votedGoatName}</u></h5>
                   <div class="containerNBAStats">
@@ -48,8 +51,9 @@ class MyVotedGoat extends React.Component {
             </li>
           </ul>
         </div>
-    ];
-  }
-}
+    ];// END OF RETURN
+  }// END OF RENDER
+}// END OF MYVOTEDGOAT CLASS COMPONENT
 
+/*--------- EXPORTS ----------*/
 export default MyVotedGoat;

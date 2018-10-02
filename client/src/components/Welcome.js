@@ -64,7 +64,7 @@ class Welcome extends React.Component {
           </p>
           <ErrorBoundary>
             <CSSTransitionGroup
-              transitionName="example"
+              transitionName= "example"
               transitionEnterTimeout={500}
               transitionLeaveTimeout={300}
             >

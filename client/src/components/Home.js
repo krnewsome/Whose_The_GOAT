@@ -1,10 +1,11 @@
+/*--------- IMPORTS ----------*/
 import React from 'react';
 import MyVotedGoat from './MyVotedGoat';
 import SearchForm from './SearchForm';
 import SearchResultsSection from './SearchResultsSection';
-const NBA = require("nba");
-const apiKey = require("../config")
-let listItems;
+const apiKey = require("../config");
+
+/*--------- HOME CLASS COMPONENT ----------*/
 class Home extends React.Component {
   constructor(props) {
    super(props);
@@ -37,122 +38,124 @@ class Home extends React.Component {
      topGoatVotes3: '',
      topGoatVotes4: '',
      topGoatVotes5: '',
-   };
- }
+    };// END OF STATE
+  }// END OF CONSTRUCTOR
 
- componentDidMount(){
-   this.getTopGoats()
-   this.getGoatCard()
-   this.getNBAPlayers('');
- }// end of componentDidMount
+  // COMPONENT DID MOUNT
+  componentDidMount(){
+    this.getTopGoats()
+    this.getGoatCard()
+    this.getNBAPlayers('');
+  }// end of componentDidMount
 
-getNBAPlayers = (playerName) =>{
-  this.setState({
-    searchTerm: playerName
-  })
-  fetch(`https://api.fantasydata.net/v3/nba/stats/JSON/Players`,{
-    headers: {
-      "Ocp-Apim-Subscription-Key": apiKey.nbaKey
-    }
-  })
-  .then(res => res.json())
-  .then(nbaPlayers => {
-     this.setState({
-       players: nbaPlayers
-     })
-  })
-}// end og get NBA players
-
-// GET goat function
-getGoat = (userGoatID, userGoatVote, goatType, goatRank) => {
-  fetch(`https://api.fantasydata.net/v3/nba/stats/JSON/Player/${userGoatID}`,{
-    headers: {
-      "Ocp-Apim-Subscription-Key": apiKey.nbaKey
-    }
-  })
-  .then(res => res.json())
-  .then(nbaPlayer => {
-    console.log(goatType)
-
-    if(goatType === 'voted'){
-      this.setState({
-        votedGoatName: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-        votedGoatImage: nbaPlayer.PhotoUrl,
-        votedGoatPosition: nbaPlayer.Position,
-        votedGoatTeam: nbaPlayer.Team,
-        votedGoatHeight: nbaPlayer.Height,
-        votedGoatWeight: nbaPlayer.Weight,
-        votedGoatExperience: nbaPlayer.Experience,
-        showVoteGoatCard: 'block'
-      })
-    } else if (goatType === 'Top') {
-      if(goatRank === 0){
-        this.setState({
-          topGoatName1: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-          topGoatVotes1: userGoatVote
-        })
-      } else if (goatRank === 1){
-        this.setState({
-          topGoatName2: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-          topGoatVotes2: userGoatVote
-
-        })
-      } else if (goatRank === 2){
-        this.setState({
-          topGoatName3: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-          topGoatVotes3: userGoatVote
-
-        })
-      } else if (goatRank === 3){
-        this.setState({
-          topGoatName4: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-          topGoatVotes4: userGoatVote
-
-        })
-      } else if (goatRank === 4){
-        this.setState({
-          topGoatName5: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-          topGoatVotes5: userGoatVote
-
-        })
+  /*--------- FUNCTIONS ----------*/
+  // GET NBA players function
+  getNBAPlayers = (playerName) =>{
+    this.setState({
+      searchTerm: playerName
+    })
+    fetch(`https://api.fantasydata.net/v3/nba/stats/JSON/Players`,{
+      headers: {
+        "Ocp-Apim-Subscription-Key": apiKey.nbaKey
       }
-    }
-  })
-}
+    })// END OF FETCH
+    .then(res => res.json())
+    .then(nbaPlayers => {
+       this.setState({
+         players: nbaPlayers
+       })
+    })
+  }// end of get NBA players
 
+  // GET goat function
+  getGoat = (userGoatID, userGoatVote, goatType, goatRank) => {
+    fetch(`https://api.fantasydata.net/v3/nba/stats/JSON/Player/${userGoatID}`,{
+      headers: {
+        "Ocp-Apim-Subscription-Key": apiKey.nbaKey
+      }
+    })// END OF FETCH
+    .then(res => res.json())
+    .then(nbaPlayer => {
+      if(goatType === 'voted'){
+        this.setState({
+          votedGoatName: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+          votedGoatImage: nbaPlayer.PhotoUrl,
+          votedGoatPosition: nbaPlayer.Position,
+          votedGoatTeam: nbaPlayer.Team,
+          votedGoatHeight: nbaPlayer.Height,
+          votedGoatWeight: nbaPlayer.Weight,
+          votedGoatExperience: nbaPlayer.Experience,
+          showVoteGoatCard: 'block'
+        })// END OF SET STATE
+      } else if (goatType === 'top') {
+        if(goatRank === 0){
+          this.setState({
+            topGoatName1: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+            topGoatVotes1: userGoatVote
+          })// END OF SET STATE
+        } else if (goatRank === 1){
+          this.setState({
+            topGoatName2: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+            topGoatVotes2: userGoatVote
+          })// END OF SET STATE
+        } else if (goatRank === 2){
+          this.setState({
+            topGoatName3: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+            topGoatVotes3: userGoatVote
+          })// END OF SET STATE
+        } else if (goatRank === 3){
+          this.setState({
+            topGoatName4: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+            topGoatVotes4: userGoatVote
+          })// END OF SET STATE
+        } else if (goatRank === 4){
+          this.setState({
+            topGoatName5: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+            topGoatVotes5: userGoatVote
+          })// END OF SET STATE
+        }
+      }// END OF ELSE IF
+    })// END OF THEN
+    .catch(function(err) {
+      console.log('There was an error loading top goats')
+    })// END OF CATCH
+  }// END OF GET GOAT FUNCTION
 
-getTopGoats = () => {
-  fetch('/home/topGoats')
-  .then(res => res.json())
-  .then(player => {
-    for (let i = 0; i < player.top5VotedGoats.length; i++){
-      this.getGoat(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, 'Top', i)
-      console.log(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, i)
-    }
-  })
-}
+  // GET topgoats function
+  getTopGoats = () => {
+    fetch('/home/topGoats')
+    .then(res => res.json())
+    .then(player => {
+      for (let i = 0; i < player.top5VotedGoats.length; i++){
+        this.getGoat(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, 'top', i)
+        console.log(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, i)
+      }// END OF FOR LOOP
+    })// END OF THEN
+  }// END OF GET TOPGOATS
 
+  // GET goat function
+  getGoatCard = () => {
+    fetch ('/home/userGoatCard')
+    .then(res => res.json())
+    .then(user => {
+      if (user.goatID !== ''){
+        this.setState({
+          playerVoteCount: user.playerVoteCount
+        })// END OF SET STATE
+        this.getGoat(user.goatID, '','voted','')
+      }// END OF IF
+    })// END OF THEN
+    .catch(error => console.error('Error:', error));
+  }// END OF GET GOAT CARD FUNCTION
 
-getGoatCard = () => {
-  fetch ('/home/userGoatCard')
-  .then(res => res.json())
-  .then(user => {
-    if (user.goatID !== ''){
-      this.setState({
-        playerVoteCount: user.playerVoteCount
-      })
-      this.getGoat(user.goatID, '','voted','')
-    }
-  })
-  .catch(error => console.error('Error:', error));
-}
-
+  // pagination function
   onPag = (pagID) => {
     this.setState({
       currentPage: pagID
-    })
-  }
+    })// END OF SET STATE
+  }// END OF PAGINATION
 
+  // userVote function
   userVote = (votePlayerID, voteButtonType) => {
     fetch ('/home/newGOAT', {
       method: "PUT",
@@ -178,13 +181,14 @@ getGoatCard = () => {
         }
       })
     .catch(error => console.error('Error:', error));
-  }// end of userVote
+  }// END OF USERVOTE FUNCTION
 
+  // RENDER
   render(){
 
     return [
-      <div key= "1" className="container">
-        <div className="row">
+      <div className="container">
+        <div key= "1" className="row">
           <div className="col hCol-1">
             <h1>Welcome to Whose the G.O.A.T</h1>
               <p> Vote on who you think is the Greatest of All Time (G.O.A.T) and see how your vote compares against others.
@@ -218,11 +222,7 @@ getGoatCard = () => {
                 onVote= {this.userVote}
                 votePlayerID= {this.state.votePlayerID}
                 playerName= {this.state.playerName}
-
               />
-              <ul>
-              <li>{listItems}</li>
-              </ul>
             </div>
           </div>
           <div key= "4" className="col-4 hCol-2">
@@ -255,9 +255,11 @@ getGoatCard = () => {
             </div>
           </div>
         </div>
-      </div>//end of container
+      </div>// END OF CONTAINER
       /*---------------------*/
-    ]// end of return
-  }// end of render
-};// end of Home component
-export default Home
+    ]// END OF RETURN
+  }// END OF RENDER
+};// END OF HOME CLASS COMPONENT
+
+/*--------- EXPORTS ----------*/
+export default Home;
