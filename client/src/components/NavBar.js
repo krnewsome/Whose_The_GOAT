@@ -51,7 +51,7 @@ class NavBar extends React.Component  {
   render(){
 
     return [
-      <nav id= 'navBar' className="navbar navbar-dark fixed-top ">
+      <nav key = '1' id= 'navBar' className="navbar navbar-dark fixed-top ">
         <Link className="navbar-brand" to="/">
           G.O.A.T
         </Link>
@@ -62,14 +62,13 @@ class NavBar extends React.Component  {
           weatherDescription= {this.state.weatherDescription}
         />
       </nav>,
-      <div className="container-fluid">
+      <div key = '2' className="container-fluid">
         <div className="card-header">
           <div className="input-group input-group-sm mb-3">
         </div>
         <form
           className = 'searchForm'
           onSubmit={this.handleSubmit}
-          key= "2"
         >
           <div className="input-group-prepend">
           <button className="input-group-text" type="submit" id="inputGroup-sizing-sm">Enter Zip Code </button>

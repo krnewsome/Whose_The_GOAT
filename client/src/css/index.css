@@ -79,6 +79,11 @@ img {
   border-style: ridge;
 }
 
+.card-title {
+  color: grey;
+
+}
+
 #whoseTheGoatTitle {
   font-weight: bold;
   color: white;

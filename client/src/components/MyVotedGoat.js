@@ -1,4 +1,4 @@
-/*--------- IMPORTS ----------*/
+/*---------- IMPORTS ----------*/
 import React from 'react';
 
 /*--------- MYVOTEDGOAT CLASS COMPONENT ----------*/
@@ -35,13 +35,13 @@ class MyVotedGoat extends React.Component {
                 <img className="card-img-top" src={this.props.votedGoatImage} alt="Voted GOAT "></img>
                 <div className="card-body">
                   <h5 className="card-title"><u>{this.props.votedGoatName}</u></h5>
-                  <div class="containerNBAStats">
-                    <div class="row">
-                      <div class="col"><p class="card-text">Team: {this.props.votedGoatTeam}</p></div>
-                      <div class="col"><p class="card-text">NBA Exp: {this.props.votedGoatExperience}</p></div>
-                      <div class="w-100"></div>
-                      <div class="col"> <p class="card-text">Height: {this.props.votedGoatHeight}</p></div>
-                      <div class="col"><p class="card-text">Weight: {this.props.votedGoatWeight}</p></div>
+                  <div className="containerNBAStats">
+                    <div className="row">
+                      <div className="col"><p className="card-text">Team: {this.props.votedGoatTeam}</p></div>
+                      <div className="col"><p className="card-text">NBA Exp: {this.props.votedGoatExperience}</p></div>
+                      <div className="w-100"></div>
+                      <div className="col"> <p className="card-text">Height: {this.props.votedGoatHeight}</p></div>
+                      <div className="col"><p className="card-text">Weight: {this.props.votedGoatWeight}</p></div>
                     </div>
                   </div>
                   <button id= {this.props.votePlayerID} className= "btn btn-primary" onClick = {this.handleClick}>Remove Vote

@@ -1,11 +1,11 @@
-
+/*---------- IMPORTS ----------*/
 import React from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 import FormFields from './FormFields';
 import ErrorBoundary from './ErrorBoundary';
 import {Link} from 'react-router-dom';
 
-
+/*---------- WELCOME CLASS COMPONENT----------*/
 class Welcome extends React.Component {
 
   /* ---------- CONSTRUCTOR ----------*/
@@ -21,30 +21,22 @@ class Welcome extends React.Component {
       divClassName: 'form-group hideSignin',
       button1Name: 'Login',
       formButtonAction: '/login',
-    }
-  }
+    }// END OF STATE
+  }// END OF CONSTRUCTOR
 
-
-  // functions
-  handleEWLButton = e => {
+  /*--------- FUNCTIONS ----------*/
+  // handleSignUpButton function
+  handleSignUpButton = e => {
     e.preventDefault();
       this.setState({
-
-      });
-  }// end of handleClick
-
-    // sign in button
-    handleSignUpButton = e => {
-      e.preventDefault();
-        this.setState({
-          className: "transformDelayOut shadow-sm p-3 m-5 rounded ",
-          eWlButtonclassName: "transformDelayOut my-4 btn btn-success",
-          userNameInput:'transformDelayIn form-group nameDiv',
-          divClassName: 'form-group',
-          button1Name: 'Register',
-          formButtonAction: '/signUp',
-        });
-    }// end of handleClick
+        className: "transformDelayOut shadow-sm p-3 m-5 rounded ",
+        eWlButtonclassName: "transformDelayOut my-4 btn btn-success",
+        userNameInput:'transformDelayIn form-group nameDiv',
+        divClassName: 'form-group',
+        button1Name: 'Register',
+        formButtonAction: '/signUp',
+      });// END OF STATE 
+  }// END OF HANDLESIGNUPBUTTON FUNCTION
 
 /* ---------- RENDER ----------*/
   render(){
@@ -77,8 +69,9 @@ class Welcome extends React.Component {
           <button id="signupLink" className = "btn btn btn-outline-success" onClick = {this.handleSignUpButton}>Sign-up</button>
         </form>
     </div>
-    )
-  }
-}
+    )// END OF RETURN
+  }// END OF RENDER
+}// END OF WELCOME CLASS COMPONENT
 
+/*---------- EXPORTS ----------*/
 export default Welcome;

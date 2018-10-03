@@ -128,7 +128,6 @@ class Home extends React.Component {
     .then(player => {
       for (let i = 0; i < player.top5VotedGoats.length; i++){
         this.getGoat(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, 'top', i)
-        console.log(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, i)
       }// END OF FOR LOOP
     })// END OF THEN
   }// END OF GET TOPGOATS
@@ -187,8 +186,8 @@ class Home extends React.Component {
   render(){
 
     return [
-      <div className="container">
-        <div key= "1" className="row">
+      <div key= "1"  className="container">
+        <div className="row">
           <div className="col hCol-1">
             <h1>Welcome to Whose the G.O.A.T</h1>
               <p> Vote on who you think is the Greatest of All Time (G.O.A.T) and see how your vote compares against others.
@@ -198,7 +197,7 @@ class Home extends React.Component {
               </p>
           </div>
         </div>
-        <div key= "2" className="row">
+        <div className="row">
           <div className="col hCol-3">
             <h3> Instructions </h3>
               <p> Search for your favorite NBA player and select the 'up' arrow to place your vote
@@ -208,7 +207,7 @@ class Home extends React.Component {
               <SearchForm onSearch= {this.getNBAPlayers}/>
           </div>
         </div>
-        <div  key= "3" className="row">
+        <div className="row">
           <div className="col hCol-4">
             <div className= 'searchResults'>
               <SearchResultsSection
@@ -225,7 +224,7 @@ class Home extends React.Component {
               />
             </div>
           </div>
-          <div key= "4" className="col-4 hCol-2">
+          <div className="col-4 hCol-2">
             <div className= 'myVotedGoat'>
               <MyVotedGoat
               onSearch= {this.getNBAPlayers}
