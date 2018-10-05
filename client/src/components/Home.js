@@ -4,6 +4,7 @@ import MyVotedGoat from './MyVotedGoat';
 import SearchForm from './SearchForm';
 import SearchResultsSection from './SearchResultsSection';
 const apiKey = require("../config");
+let top5VotedGoats =[];
 
 /*--------- HOME CLASS COMPONENT ----------*/
 class Home extends React.Component {
@@ -14,13 +15,7 @@ class Home extends React.Component {
      isLoading: true,
      showVotebutton: 'block',
      votePlayerID:'',
-     votedGoatImage:'',
-     votedGoatName:'',
-     votedGoatPosition:'',
-     votedGoatTeam: '',
-     votedGoatHeight:'',
-     votedGoatWeight:'',
-     votedGoatExperience:'',
+     votedGoatInfo:'',
      playerName: '',
      playerVoteCount: '',
      players: [],
@@ -28,16 +23,17 @@ class Home extends React.Component {
      currentPage: 1,
      playersPerPage: 10,
      showVoteGoatCard: 'none',
-     topGoatName1: '',
-     topGoatName2: '',
-     topGoatName3: '',
-     topGoatName4: '',
-     topGoatName5: '',
-     topGoatVotes1: '',
-     topGoatVotes2: '',
-     topGoatVotes3: '',
-     topGoatVotes4: '',
-     topGoatVotes5: '',
+     top5VotedGoats:[],
+     // topGoatName1: '',
+     // topGoatName2: '',
+     // topGoatName3: '',
+     // topGoatName4: '',
+     // topGoatName5: '',
+     // topGoatVotes1: '',
+     // topGoatVotes2: '',
+     // topGoatVotes3: '',
+     // topGoatVotes4: '',
+     // topGoatVotes5: '',
     };// END OF STATE
   }// END OF CONSTRUCTOR
 
@@ -77,43 +73,43 @@ class Home extends React.Component {
     .then(res => res.json())
     .then(nbaPlayer => {
       if(goatType === 'voted'){
+        // console.log(nbaPlayer)
         this.setState({
-          votedGoatName: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-          votedGoatImage: nbaPlayer.PhotoUrl,
-          votedGoatPosition: nbaPlayer.Position,
-          votedGoatTeam: nbaPlayer.Team,
-          votedGoatHeight: nbaPlayer.Height,
-          votedGoatWeight: nbaPlayer.Weight,
-          votedGoatExperience: nbaPlayer.Experience,
+          votedGoatInfo: nbaPlayer,
           showVoteGoatCard: 'block'
         })// END OF SET STATE
       } else if (goatType === 'top') {
-        if(goatRank === 0){
-          this.setState({
-            topGoatName1: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-            topGoatVotes1: userGoatVote
-          })// END OF SET STATE
-        } else if (goatRank === 1){
-          this.setState({
-            topGoatName2: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-            topGoatVotes2: userGoatVote
-          })// END OF SET STATE
-        } else if (goatRank === 2){
-          this.setState({
-            topGoatName3: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-            topGoatVotes3: userGoatVote
-          })// END OF SET STATE
-        } else if (goatRank === 3){
-          this.setState({
-            topGoatName4: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-            topGoatVotes4: userGoatVote
-          })// END OF SET STATE
-        } else if (goatRank === 4){
-          this.setState({
-            topGoatName5: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-            topGoatVotes5: userGoatVote
-          })// END OF SET STATE
-        }
+        top5VotedGoats.push({
+          goatRank: goatRank + 1,
+          topGoatName: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+          topGoatVotes: userGoatVote
+        })
+        // if(goatRank === 0){
+        //   this.setState({
+        //     topGoatName1: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+        //     topGoatVotes1: userGoatVote
+        //   })// END OF SET STATE
+        // } else if (goatRank === 1){
+        //   this.setState({
+        //     topGoatName2: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+        //     topGoatVotes2: userGoatVote
+        //   })// END OF SET STATE
+        // } else if (goatRank === 2){
+        //   this.setState({
+        //     topGoatName3: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+        //     topGoatVotes3: userGoatVote
+        //   })// END OF SET STATE
+        // } else if (goatRank === 3){
+        //   this.setState({
+        //     topGoatName4: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+        //     topGoatVotes4: userGoatVote
+        //   })// END OF SET STATE
+        // } else if (goatRank === 4){
+        //   this.setState({
+        //     topGoatName5: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
+        //     topGoatVotes5: userGoatVote
+        //   })// END OF SET STATE
+        // }
       }// END OF ELSE IF
     })// END OF THEN
     .catch(function(err) {
@@ -129,7 +125,18 @@ class Home extends React.Component {
       for (let i = 0; i < player.top5VotedGoats.length; i++){
         this.getGoat(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, 'top', i)
       }// END OF FOR LOOP
+      console.log(typeof top5VotedGoats)
     })// END OF THEN
+    .then(()=>{
+      top5VotedGoats.sort(function (a, b) {
+        console.log(top5VotedGoats)
+        return a.goatRank - b.goatRank
+      })
+      this.setState({
+        top5VotedGoats: top5VotedGoats
+      })
+      console.log(this.state.top5VotedGoats)
+    })
   }// END OF GET TOPGOATS
 
   // GET goat function
@@ -228,28 +235,13 @@ class Home extends React.Component {
             <div className= 'myVotedGoat'>
               <MyVotedGoat
               onSearch= {this.getNBAPlayers}
-              topGoatName1= {this.state.topGoatName1}
-              topGoatVotes1= {this.state.topGoatVotes1}
-              topGoatName2= {this.state.topGoatName2}
-              topGoatVotes2= {this.state.topGoatVotes2}
-              topGoatName3= {this.state.topGoatName3}
-              topGoatVotes3= {this.state.topGoatVotes3}
-              topGoatName4= {this.state.topGoatName4}
-              topGoatVotes4= {this.state.topGoatVotes4}
-              topGoatName5= {this.state.topGoatName5}
-              topGoatVotes5= {this.state.topGoatVotes5}
+              top5VotedGoats
               showVoteGoatCard= {this.state.showVoteGoatCard}
               buttonDisplay= {this.state.showVotebutton}
               playerVoteCount= {this.state.playerVoteCount}
               onVote= {this.userVote}
               votePlayerID= {this.state.votePlayerID}
-              votedGoatName = {this.state.votedGoatName}
-              votedGoatImage = {this.state.votedGoatImage}
-              votedGoatPosition = {this.state.votedGoatPosition}
-              votedGoatTeam = {this.state.votedGoatTeam}
-              votedGoatHeight = {this.state.votedGoatHeight}
-              votedGoatWeight = {this.state.votedGoatWeight}
-              votedGoatExperience = {this.state.votedGoatExperience}
+              votedGoatInfo= {this.state.votedGoatInfo}
               />
             </div>
           </div>
