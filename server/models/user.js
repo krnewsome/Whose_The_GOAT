@@ -1,7 +1,9 @@
+/*---------- REQUIRE ----------*/
 const mongoose = require('mongoose');
 const bcrypt =require('bcrypt');
 const Schema = mongoose.Schema
 
+/*---------- USERSCHEMA ----------*/
 const UserSchema = new mongoose.Schema({
   _id: {
     type: Schema.ObjectId,
@@ -28,17 +30,7 @@ const UserSchema = new mongoose.Schema({
 
   userVote: Number,
 
-  photo: {
-    type: String,
-    trim: true,
-  },
-
-  userZip: {
-    type: String,
-    required: true,
-    trim: true
-  }
-});
+});// END OF USERSCHEMA
 
 //Authentication
 UserSchema.statics.authenticate = function(email, password, callback) {
@@ -57,8 +49,8 @@ UserSchema.statics.authenticate = function(email, password, callback) {
         } else {
           return callback();
         }
-      })// end of compare
-    });// end of exec
+      })// END OF COMPARE
+    });// END OF EXEC
 }
 
 
@@ -71,10 +63,11 @@ UserSchema.pre('save', function(next){
     }
     user.password = hash;
     next();
-  })
-})
+  })// END OF HASH
+})// END OF PRE SAVE
 
-
-
+/*---------- MODELS ----------*/
 const User = mongoose.model('User', UserSchema);
+
+/*---------- EXPORTS ----------*/
 module.exports = User;

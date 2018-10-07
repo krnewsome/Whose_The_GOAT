@@ -1,11 +1,11 @@
+/*---------- REQUIRE ----------*/
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const User = require('../models/user');
-// const UserGoatCard = require('../models/userGoatCard');
 const apiKey = require( '../../client/src/config.js');
 
-
+/*---------- ROUTES ----------*/
 // Post login user
 router.post('/login', function(req, res, next) {
   if (req.body.email && req.body.email) {
@@ -24,11 +24,8 @@ router.post('/login', function(req, res, next) {
     err.status = 401
     return next(err)
   }
-});// end of POST login user
+});// END OF POST LOGIN USER
 
-
-let userZip;
-let _id;
 /* POST new user. */
 router.post('/signUp', function(req, res, next) {
   if(req.body.password === req.body.password2){
@@ -47,31 +44,14 @@ router.post('/signUp', function(req, res, next) {
         userZip = req.body.userZip
         req.session.userId = user._id;
       }
-    })// end of save
+    })// END OF SAVE
     res.redirect('/');
 
   } else {
     console.log('passwords do not match')
     res.redirect('/');
   }
-      // create new UserGoatCard
-      // const userGoatCard = new UserGoatCard({
-      //   goatName: '',
-      //   goatPPG: '',
-      //   goatRPG: '',
-      //   goatAPG: '',
-      // });
-      // userGoatCard.save(function (err, userGoatCard) {
-      //   userGoatCard.goatVotes = user._id
-      //   if (err) return next(err);
-      // })// end of save
-      // create new User
+});// END OF POST NEW USER
 
-});// end of POST new user
-
-
-
-
-
-
+/*---------- EPORTS ----------*/
 module.exports = router;
