@@ -26,7 +26,7 @@ class SearchResultsSection extends React.Component {
         searchTerm.toUpperCase() === player.FirstName.toUpperCase() + ' ' + player.LastName.toUpperCase())){
         filtered.push(player)
         // map over nba players and create nbaplayer card
-        nbaPlayers = filtered.map((player, index) =>
+        nbaPlayers = filtered.map((player) =>
           <NbaPlayerCard
           key={player.PlayerID}
           name= {player.FirstName + ' ' + player.LastName}
@@ -57,7 +57,7 @@ class SearchResultsSection extends React.Component {
     // create pagitonation buttons/numbers
     let pagination= pageNumber.map(number =>
       <button
-        class="page-item"
+        className="page-item btn btn-primary"
         key= {number}
         id= {number}
         onClick = {handlePagination}

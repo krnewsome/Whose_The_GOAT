@@ -9,6 +9,8 @@ import './css/App.css';
 import Welcome from './components/Welcome.js';
 import Home from './components/Home.js';
 import NavBar from './components/NavBar';
+import NotFound from './components/NotFound';
+
 
 /*---------- APP CLASS COMPONENT----------*/
 class App extends Component {
@@ -23,6 +25,7 @@ class App extends Component {
           <Switch>
             <Route exact path='/' render={() => <Welcome /> }/>
             <Route exact path='/home' render={() => <Home /> }/>
+            <Route component={NotFound} />
           </Switch>
           </div>
       </BrowserRouter>

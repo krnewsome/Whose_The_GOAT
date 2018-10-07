@@ -1,6 +1,5 @@
 /*---------- IMPORTS ----------*/
 import React from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
 import FormFields from './FormFields';
 import ErrorBoundary from './ErrorBoundary';
 import {Link} from 'react-router-dom';
@@ -15,7 +14,6 @@ class Welcome extends React.Component {
       isLoggedin: false,
       showSignin: true,
       className: "shadow-sm p-3 m-5 rounded",
-      eWlButtonclassName: "btn btn-outline-warning",
       userNameInput: "form-group nameDiv",
       eWlButtonText: "Enter without Logining in",
       divClassName: 'form-group hideSignin',
@@ -27,6 +25,7 @@ class Welcome extends React.Component {
   /*--------- FUNCTIONS ----------*/
   // handleSignUpButton function
   handleSignUpButton = e => {
+    e.target.style.display = 'none'
     e.preventDefault();
       this.setState({
         className: "transformDelayOut shadow-sm p-3 m-5 rounded ",
@@ -35,7 +34,7 @@ class Welcome extends React.Component {
         divClassName: 'form-group',
         button1Name: 'Register',
         formButtonAction: '/signUp',
-      });// END OF STATE 
+      });// END OF STATE
   }// END OF HANDLESIGNUPBUTTON FUNCTION
 
 /* ---------- RENDER ----------*/
@@ -43,31 +42,23 @@ class Welcome extends React.Component {
 
     return (
     <div className = 'container-fluid p-3 mb-2 text-dark' >
-      <h1 id= 'whoseTheGoatTitle' className = "my-4 jumbotron display-4 shadow-lg p-3 mb-5 rounded"> Whose the G.O.A.T </h1>
-        <form
-        id = "loginForm"
-        method = "post"
-        action = {this.state.formButtonAction}
-        className = {this.state.className}
-        >
-          <h3><strong> Welcome </strong></h3>
-          <p className = {this.state.eWlButtonclassName} id = 'eWlButton'>
-            <Link id='linkewl' className="navbar-brand" to='/home' >{this.state.eWlButtonText}</Link>
-          </p>
-          <ErrorBoundary>
-            <CSSTransitionGroup
-              transitionName= "example"
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={300}
-            >
-            <FormFields divClassName = {this.state.divClassName}/>
-
-            </CSSTransitionGroup>
-          </ErrorBoundary>
-
-          <button type="submit" className="btn btn btn-outline-success">{this.state.button1Name}</button>
-          <button id="signupLink" className = "btn btn btn-outline-success" onClick = {this.handleSignUpButton}>Sign-up</button>
-        </form>
+      <ErrorBoundary>
+        <h1 id= 'whoseTheGoatTitle' className = "my-4 jumbotron display-4 shadow-lg p-3 mb-5 rounded"> Whose the G.O.A.T </h1>
+          <form
+          id = "loginForm"
+          method = "post"
+          action = {this.state.formButtonAction}
+          className = {this.state.className}
+          >
+            <h3><strong> Welcome </strong></h3>
+            <p className = "btn btn-outline-warning" id = 'eWlButton'>
+              <Link id='linkewl' className="navbar-brand" to='/home' >{this.state.eWlButtonText}</Link>
+            </p>
+              <FormFields divClassName = {this.state.divClassName}/>
+            <button id="loginLink" type="submit" className="btn btn btn-outline-success">{this.state.button1Name}</button>
+            <button id="signupLink" className = "btn btn btn-outline-success" onClick = {this.handleSignUpButton}>Sign-up</button>
+          </form>
+      </ErrorBoundary>
     </div>
     )// END OF RETURN
   }// END OF RENDER

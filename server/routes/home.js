@@ -28,6 +28,7 @@ router.get('/topGoats', function(req, res, next) {
     User.find().distinct('votePlayerID', function (err, playerIDs){
     playerIDs.forEach(function(player){
       if(player !== ''){
+        console.log(player)
         User.count({votePlayerID: player}, function(err, count){
           if(votedGoatArray.length < 5){
             votedGoatArray.push({pID: player, pVoteCount: count})
@@ -36,12 +37,12 @@ router.get('/topGoats', function(req, res, next) {
       }
 
     })
+  })
+  .then(()=>{
     votedGoatArray.sort(function (a, b) {
-      console.log(votedGoatArray)
       return b.pVoteCount - a.pVoteCount
     })
         let top5VotedGoats = votedGoatArray.slice(0,5)
-        // console.log(top5VotedGoats)
         res.send({top5VotedGoats})
   })
 });

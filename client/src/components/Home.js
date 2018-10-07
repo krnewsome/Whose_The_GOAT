@@ -11,7 +11,6 @@ class Home extends React.Component {
   constructor(props) {
    super(props);
    this.state = {
-     error: null,
      isLoading: true,
      showVotebutton: 'block',
      votePlayerID:'',
@@ -24,16 +23,6 @@ class Home extends React.Component {
      playersPerPage: 10,
      showVoteGoatCard: 'none',
      top5VotedGoats:[],
-     // topGoatName1: '',
-     // topGoatName2: '',
-     // topGoatName3: '',
-     // topGoatName4: '',
-     // topGoatName5: '',
-     // topGoatVotes1: '',
-     // topGoatVotes2: '',
-     // topGoatVotes3: '',
-     // topGoatVotes4: '',
-     // topGoatVotes5: '',
     };// END OF STATE
   }// END OF CONSTRUCTOR
 
@@ -49,7 +38,7 @@ class Home extends React.Component {
   getNBAPlayers = (playerName) =>{
     this.setState({
       searchTerm: playerName
-    })
+    })// END OF SETSTATE
     fetch(`https://api.fantasydata.net/v3/nba/stats/JSON/Players`,{
       headers: {
         "Ocp-Apim-Subscription-Key": apiKey.nbaKey
@@ -59,8 +48,8 @@ class Home extends React.Component {
     .then(nbaPlayers => {
        this.setState({
          players: nbaPlayers
-       })
-    })
+       })// END OF SETSTATE
+    })// END OF THEN
   }// end of get NBA players
 
   // GET goat function
@@ -73,43 +62,27 @@ class Home extends React.Component {
     .then(res => res.json())
     .then(nbaPlayer => {
       if(goatType === 'voted'){
-        // console.log(nbaPlayer)
         this.setState({
           votedGoatInfo: nbaPlayer,
           showVoteGoatCard: 'block'
         })// END OF SET STATE
       } else if (goatType === 'top') {
+        if(top5VotedGoats.length === 5){
+          top5VotedGoats=[];
+        }
         top5VotedGoats.push({
+          topGoatKeyID: nbaPlayer.PlayerID,
           goatRank: goatRank + 1,
           topGoatName: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
           topGoatVotes: userGoatVote
-        })
-        // if(goatRank === 0){
-        //   this.setState({
-        //     topGoatName1: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-        //     topGoatVotes1: userGoatVote
-        //   })// END OF SET STATE
-        // } else if (goatRank === 1){
-        //   this.setState({
-        //     topGoatName2: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-        //     topGoatVotes2: userGoatVote
-        //   })// END OF SET STATE
-        // } else if (goatRank === 2){
-        //   this.setState({
-        //     topGoatName3: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-        //     topGoatVotes3: userGoatVote
-        //   })// END OF SET STATE
-        // } else if (goatRank === 3){
-        //   this.setState({
-        //     topGoatName4: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-        //     topGoatVotes4: userGoatVote
-        //   })// END OF SET STATE
-        // } else if (goatRank === 4){
-        //   this.setState({
-        //     topGoatName5: nbaPlayer.FirstName + ' ' + nbaPlayer.LastName,
-        //     topGoatVotes5: userGoatVote
-        //   })// END OF SET STATE
-        // }
+        })// END OF PUSH
+        top5VotedGoats.sort(function (a, b) {
+          return a.goatRank - b.goatRank;
+        })// END OF SORT
+        this.setState({
+          top5VotedGoats: top5VotedGoats,
+          isLoading: false,
+        })// END OF SETSTATE
       }// END OF ELSE IF
     })// END OF THEN
     .catch(function(err) {
@@ -123,19 +96,12 @@ class Home extends React.Component {
     .then(res => res.json())
     .then(player => {
       for (let i = 0; i < player.top5VotedGoats.length; i++){
-        this.getGoat(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, 'top', i)
+        this.getGoat(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, 'top', i);
       }// END OF FOR LOOP
-      console.log(typeof top5VotedGoats)
+
     })// END OF THEN
-    .then(()=>{
-      top5VotedGoats.sort(function (a, b) {
-        console.log(top5VotedGoats)
-        return a.goatRank - b.goatRank
-      })
-      this.setState({
-        top5VotedGoats: top5VotedGoats
-      })
-      console.log(this.state.top5VotedGoats)
+    .catch((err)=>{
+
     })
   }// END OF GET TOPGOATS
 
@@ -175,17 +141,13 @@ class Home extends React.Component {
          this.getGoatCard()
        } else if(voteButtonType === 'Remove Vote'){
          this.setState({
-           votedGoatName: '',
-           votedGoatImage: '',
-           votedGoatPosition: '',
-           votedGoatTeam: '',
-           votedGoatHeight: '',
-           votedGoatWeight: '',
-           votedGoatExperience: '',
+           votedGoatInfo:'',
            showVoteGoatCard: 'none',
          })
         }
-      })
+      })// END OF THEN
+      .then(()=>{
+      })// END OF THEN
     .catch(error => console.error('Error:', error));
   }// END OF USERVOTE FUNCTION
 
@@ -223,7 +185,6 @@ class Home extends React.Component {
                 playersPerPage= {this.state.playersPerPage}
                 searchTerm= {this.state.searchTerm}
                 players= {this.state.players}
-                searchPlayerVoteCount= {this.state.searchPlayerVoteCount}
                 buttonDisplay= {this.state.showVotebutton}
                 onVote= {this.userVote}
                 votePlayerID= {this.state.votePlayerID}
@@ -233,9 +194,13 @@ class Home extends React.Component {
           </div>
           <div className="col-4 hCol-2">
             <div className= 'myVotedGoat'>
+            {
+              (this.state.isLoading)
+            ? <p>Loading...</p>
+            :
               <MyVotedGoat
               onSearch= {this.getNBAPlayers}
-              top5VotedGoats
+              top5VotedGoats= {this.state.top5VotedGoats}
               showVoteGoatCard= {this.state.showVoteGoatCard}
               buttonDisplay= {this.state.showVotebutton}
               playerVoteCount= {this.state.playerVoteCount}
@@ -243,6 +208,7 @@ class Home extends React.Component {
               votePlayerID= {this.state.votePlayerID}
               votedGoatInfo= {this.state.votedGoatInfo}
               />
+            }
             </div>
           </div>
         </div>

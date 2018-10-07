@@ -25,21 +25,8 @@ img {
   display: none;
 }
 
-#signupLink:hover .nameDiv{
-  display: block;
-  transition-duration: 3s;
-
-
-}
-.transformDelayOut{
-  transition-duration: 3s;
-  /* opacity: .0; */
-}
-
-.transformDelayIn{
-  opacity: 100;
-  display: block;
- transition: opacity 2s ease-in;
+#signupLink, #loginLink {
+  margin: 2%;
 }
 
 .hideSignin {
