@@ -25,7 +25,7 @@ img {
   display: none;
 }
 
-#signupLink, #loginLink {
+#signupButton, #loginButton {
   margin: 2%;
 }
 
@@ -96,4 +96,9 @@ background-image: url('../images/woodPattern.png');
 
 #nbaPlayerCardText {
   color: grey;
+}
+
+.error {
+  color: #D8000C;
+
 }

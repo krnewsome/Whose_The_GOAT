@@ -5,7 +5,7 @@ import ErrorBoundary from './ErrorBoundary';
 import {Link} from 'react-router-dom';
 
 /*---------- WELCOME CLASS COMPONENT----------*/
-class Welcome extends React.Component {
+class WelcomeError extends React.Component {
 
   /* ---------- CONSTRUCTOR ----------*/
   constructor(props){
@@ -19,6 +19,7 @@ class Welcome extends React.Component {
       divClassName: 'form-group hideSignin',
       button1Name: 'Login',
       formButtonAction: '/login',
+      error: ''
     }// END OF STATE
   }// END OF CONSTRUCTOR
 
@@ -26,7 +27,6 @@ class Welcome extends React.Component {
 
   // handleSignUpButton function
   handleSignUpButton = e => {
-    console.log(e)
       e.preventDefault();
       e.target.style.display = 'none'
         this.setState({
@@ -35,10 +35,34 @@ class Welcome extends React.Component {
           userNameInput:'transformDelayIn form-group nameDiv',
           divClassName: 'form-group',
           button1Name: 'Register',
-          formButtonAction: '/signUp'
+          formButtonAction: '/signUp',
+          error: 'none'
         });// END OF STATE
 
   }// END OF HANDLESIGNUPBUTTON FUNCTION
+
+  handleRegisterButton = (e) =>{
+    if (e.target.textContent !== 'Login'){
+      let formFields = e.target.parentNode.querySelectorAll('input')
+      let test = function(){
+        for (let i in formFields){
+          if (formFields[i].value === ''){
+            formFields[i].previousSibling.style.color = 'red';
+            return true
+          } else {
+            formFields[i].previousSibling.style.color = 'white';
+          }
+        }// end of LOOP
+
+      }// end of test
+
+      if(test() || formFields[2].value !== formFields[3].value){
+        e.preventDefault();
+        console.log(formFields[2].value, formFields[3].value)
+          return
+      }
+    }
+  }
 
 /* ---------- RENDER ----------*/
   render(){
@@ -57,8 +81,9 @@ class Welcome extends React.Component {
             <p className = "btn btn-outline-warning" id = 'eWlButton'>
               <Link id='linkewl' className="navbar-brand" to='/home' >{this.state.eWlButtonText}</Link>
             </p>
+            <p className= 'error' style={{display: this.state.error}}> Wrong Email or Password </p>
               <FormFields divClassName = {this.state.divClassName}/>
-            <button id="loginButton" className="btn btn btn-outline-success" onClick= {this.handleLoginButton}>{this.state.button1Name}</button>
+            <button id="loginButton" className="btn btn btn-outline-success" onClick= {this.handleRegisterButton}>{this.state.button1Name}</button>
             <button id="signupButton" className = "btn btn btn-outline-success" onClick = {this.handleSignUpButton}>Sign-up</button>
           </form>
       </ErrorBoundary>
@@ -68,4 +93,4 @@ class Welcome extends React.Component {
 }// END OF WELCOME CLASS COMPONENT
 
 /*---------- EXPORTS ----------*/
-export default Welcome;
+export default WelcomeError;

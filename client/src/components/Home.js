@@ -20,7 +20,7 @@ class Home extends React.Component {
      players: [],
      searchTerm:'',
      currentPage: 1,
-     playersPerPage: 10,
+     playersPerPage: 2,
      showVoteGoatCard: 'none',
      top5VotedGoats:[],
     };// END OF STATE
@@ -101,7 +101,7 @@ class Home extends React.Component {
 
     })// END OF THEN
     .catch((err)=>{
-
+      console.log(err)
     })
   }// END OF GET TOPGOATS
 

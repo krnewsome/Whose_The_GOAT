@@ -28,23 +28,31 @@ class NavBar extends React.Component  {
   // on handleSubmit function
   handleSubmit = e => {
     e.preventDefault();
-    this.getWeather(this.searchTag.value)
-    e.currentTarget.reset();
+    let isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(this.searchTag.value);
+    let zipCodeText = e.target.children[0].children[0]
+    if(isValidZip){
+      this.getWeather(this.searchTag.value)
+      zipCodeText.style.color = 'grey';
+      e.currentTarget.reset();
+    } else {
+    zipCodeText.style.color = 'red';
+    }
   };// END OF HANDLE SUBMIT
 
   // GET weather function
   getWeather = (zip) =>{
-    fetch(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&APPID=${apiKey.key}`)
-    .then(res => res.json())
-    .then(weather => {
-      console.log(weather.name)
-      this.setState({
-        weatherTemp:weather.main.temp,
-        weatherHumidity:weather.main.humidity,
-        weatherDescription:weather.weather[0].description,
-        cityName: weather.name,
-      })// END OF SET STATE
-    })// END OF THEN
+      fetch(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&APPID=${apiKey.key}`)
+      .then(res => res.json())
+      .then(weather => {
+        let fahrenheitTemp = Math.ceil(((weather.main.temp - 273.15)*1.8) + 32);
+
+        this.setState({
+          weatherTemp: fahrenheitTemp + "\xB0 F",
+          weatherHumidity:weather.main.humidity +"%",
+          weatherDescription:weather.weather[0].description,
+          cityName: weather.name,
+        })// END OF SET STATE
+      })// END OF THEN
   }// END OF GET WEATHER FUNCTION
 
   // RENDER
@@ -71,17 +79,17 @@ class NavBar extends React.Component  {
           onSubmit={this.handleSubmit}
         >
           <div className="input-group-prepend">
-          <button className="input-group-text" type="submit" id="inputGroup-sizing-sm">Enter Zip Code </button>
-          <input
-              type="text"
-              className="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm"
-              onChange={this.onSearchChange}
-              name="search"
-              ref={(input) => this.searchTag = input}
-              placeholder="Search for the weather forcast"
-            >
+            <button className="input-group-text" type="submit" id="inputGroup-sizing-sm">Enter Zip Code </button>
+            <input
+                type="text"
+                className="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                onChange={this.onSearchChange}
+                name="search"
+                ref={(input) => this.searchTag = input}
+                placeholder="Search for the weather forcast"
+              >
             </input>
           </div>
           </form>

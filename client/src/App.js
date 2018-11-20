@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import './css/App.css';
 import Welcome from './components/Welcome.js';
+import WelcomeError from './components/WelcomeError.js';
 import Home from './components/Home.js';
 import NavBar from './components/NavBar';
 import NotFound from './components/NotFound';
@@ -24,6 +25,7 @@ class App extends Component {
           <NavBar />
           <Switch>
             <Route exact path='/' render={() => <Welcome /> }/>
+            <Route exact path='/error' render={() => <WelcomeError /> }/>
             <Route exact path='/home' render={() => <Home /> }/>
             <Route component={NotFound} />
           </Switch>

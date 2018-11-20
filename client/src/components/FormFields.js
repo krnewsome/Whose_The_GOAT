@@ -17,14 +17,14 @@ class FormFields extends React.Component {
 
       // email address input field
       <div key = '2' className="form-group">
-        <label htmlFor="emailInput">Email address</label>
+        <label htmlFor="emailInput" className= {this.props.errorLabel} >Email address</label>
         <input type="email" className="form-control mx-auto" id="emailInput" name= "email" aria-describedby="emailHelp" placeholder="Enter email"/>
         <small id="emailHelp" className="form-text  font-italic" style={{color: 'white'}}>We will never share your email with anyone else.</small>
       </div>,
 
       // password input field
       <div key = '3' className="form-group">
-        <label htmlFor="passwordInput1">Password</label>
+        <label htmlFor="passwordInput1" className= {this.props.errorLabel}>Password</label>
         <input type="password" className="form-control mx-auto" name= "password" id="passwordInput1" placeholder="Password"/>
       </div>,
 
