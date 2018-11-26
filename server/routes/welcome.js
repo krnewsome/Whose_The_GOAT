@@ -8,37 +8,25 @@ const apiKey = require( '../../client/src/config.js');
 /*---------- ROUTES ----------*/
 // Post login user
 router.post('/login', function(req, res, next) {
-  console.log(req.body)
-  if (req.body.email && req.body.email) {
+  if (req.body.email) {
     User.authenticate(req.body.email, req.body.password, function (err, user) {
       if (err || !user) {
         const err = 'Wrong email or password';
-        res.redirect('/error')
+        res.redirect('/WelcomeError')
       } else {
         req.session.userId = user._id;
-        console.log(req.session.userId )
         res.redirect('/home')
       }
     });
   } else {
-    res.redirect('/error')
+    res.redirect('/WelcomeError')
   }
 });// END OF POST LOGIN USER
 
 /* POST new user. */
 router.post('/signUp', function(req, res, next) {
 
-
-    let checkSignupFields = function () {
-      for (let i in Object.values(req.body)){
-        if (Object.values(req.body)[i] === ''){
-          return false
-        }
-      }
-    }
-    console.log(checkSignupFields())
-
-  if(req.body.password === req.body.password2 && checkSignupFields()){
+  if(req.body.password === req.body.password2){
     const user = new User({
       userName: req.body.userName,
       email: req.body.email,
@@ -50,10 +38,10 @@ router.post('/signUp', function(req, res, next) {
       if (err) {
         return next(err)
       } else {
-        req.session.userId = user._id;
       }
     })// END OF SAVE
-    res.redirect('/Home');
+    req.session.userId = user._id;
+    res.redirect('/home');
 
   } else {
     console.log('passwords do not match')

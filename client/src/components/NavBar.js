@@ -53,6 +53,14 @@ class NavBar extends React.Component  {
           cityName: weather.name,
         })// END OF SET STATE
       })// END OF THEN
+      .catch(err => {
+        this.setState({
+          weatherTemp: 'Not Found',
+          weatherHumidity: 'Not Found',
+          weatherDescription: 'Not Found',
+          cityName: 'Not Found',
+        })
+      })
   }// END OF GET WEATHER FUNCTION
 
   // RENDER

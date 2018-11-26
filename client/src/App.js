@@ -25,7 +25,7 @@ class App extends Component {
           <NavBar />
           <Switch>
             <Route exact path='/' render={() => <Welcome /> }/>
-            <Route exact path='/error' render={() => <WelcomeError /> }/>
+            <Route exact path='/WelcomeError' render={() => <WelcomeError /> }/>
             <Route exact path='/home' render={() => <Home /> }/>
             <Route component={NotFound} />
           </Switch>

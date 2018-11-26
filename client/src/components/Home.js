@@ -97,6 +97,7 @@ class Home extends React.Component {
     .then(player => {
       for (let i = 0; i < player.top5VotedGoats.length; i++){
         this.getGoat(player.top5VotedGoats[i].pID, player.top5VotedGoats[i].pVoteCount, 'top', i);
+
       }// END OF FOR LOOP
 
     })// END OF THEN

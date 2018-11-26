@@ -19,6 +19,7 @@ class Welcome extends React.Component {
       divClassName: 'form-group hideSignin',
       button1Name: 'Login',
       formButtonAction: '/login',
+      formFieldsClassName: ''
     }// END OF STATE
   }// END OF CONSTRUCTOR
 
@@ -26,7 +27,6 @@ class Welcome extends React.Component {
 
   // handleSignUpButton function
   handleSignUpButton = e => {
-    console.log(e)
       e.preventDefault();
       e.target.style.display = 'none'
         this.setState({
@@ -35,10 +35,38 @@ class Welcome extends React.Component {
           userNameInput:'transformDelayIn form-group nameDiv',
           divClassName: 'form-group',
           button1Name: 'Register',
-          formButtonAction: '/signUp'
+          formButtonAction: '/signUp',
         });// END OF STATE
-
   }// END OF HANDLESIGNUPBUTTON FUNCTION
+
+  //handleLoginButton function
+  handleRegisterButton = e => {
+    if (e.target.textContent !== 'Login'){
+      let formFields = e.target.parentNode.querySelectorAll('input')
+      let testField = function(){
+        for (let i =0; i < 4; i++){
+          if (formFields[i].value === ''){
+            formFields[i].setAttribute("style", "border: 2px solid;border-radius:25px;border-style: solid;border-color: red");
+            formFields[i].previousSibling.style.color = 'red';
+            return true
+          } else {
+            formFields[i].setAttribute("style", "solid;border-color: green")
+            formFields[i].previousSibling.style.color = 'white';
+          }
+        }// end of LOOP
+
+      }// end of test
+
+      if(testField()){
+        e.preventDefault();
+        return
+      } else if (formFields[2].value !== formFields[3].value) {
+        e.preventDefault();
+        formFields[2].setAttribute("style", "border: 2px solid;border-radius:25px;border-style: solid;border-color: red");
+        formFields[3].setAttribute("style", "border: 2px solid;border-radius:25px;border-style: solid;border-color: red");
+      }
+    }
+  }// END OF HANDLELOGINBUTTON FUNCTION
 
 /* ---------- RENDER ----------*/
   render(){
@@ -58,7 +86,7 @@ class Welcome extends React.Component {
               <Link id='linkewl' className="navbar-brand" to='/home' >{this.state.eWlButtonText}</Link>
             </p>
               <FormFields divClassName = {this.state.divClassName}/>
-            <button id="loginButton" className="btn btn btn-outline-success" onClick= {this.handleLoginButton}>{this.state.button1Name}</button>
+            <button id="loginButton" className="btn btn btn-outline-success" onClick= {this.handleRegisterButton}>{this.state.button1Name}</button>
             <button id="signupButton" className = "btn btn btn-outline-success" onClick = {this.handleSignUpButton}>Sign-up</button>
           </form>
       </ErrorBoundary>

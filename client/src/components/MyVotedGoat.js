@@ -24,7 +24,7 @@ class MyVotedGoat extends React.Component {
     return [
       <h3 key= "1" >Top 5 Rated G.O.A.Ts</h3>,
         <ul key= "2" >
-        {topGoats}
+          {topGoats}
         </ul>,
         <div key= "3" className = 'userVotedGOAT' style={{display: this.props.showVoteGoatCard}}>
           <h4> My Voted G.O.A.T </h4>

@@ -36,33 +36,36 @@ class WelcomeError extends React.Component {
           divClassName: 'form-group',
           button1Name: 'Register',
           formButtonAction: '/signUp',
-          error: 'none'
         });// END OF STATE
-
   }// END OF HANDLESIGNUPBUTTON FUNCTION
 
-  handleRegisterButton = (e) =>{
+  //handleLoginButton function
+  handleRegisterButton = e => {
     if (e.target.textContent !== 'Login'){
       let formFields = e.target.parentNode.querySelectorAll('input')
-      let test = function(){
-        for (let i in formFields){
+      let testField = function(){
+        for (let i =0; i < 4; i++){
           if (formFields[i].value === ''){
+            formFields[i].setAttribute("style", "border: 2px solid;border-radius:25px;border-style: solid;border-color: red");
             formFields[i].previousSibling.style.color = 'red';
             return true
           } else {
+            formFields[i].setAttribute("style", "solid;border-color: green")
             formFields[i].previousSibling.style.color = 'white';
           }
         }// end of LOOP
-
       }// end of test
 
-      if(test() || formFields[2].value !== formFields[3].value){
+      if(testField()){
         e.preventDefault();
-        console.log(formFields[2].value, formFields[3].value)
-          return
+        return
+      } else if (formFields[2].value !== formFields[3].value) {
+        e.preventDefault();
+        formFields[2].setAttribute("style", "border: 2px solid;border-radius:25px;border-style: solid;border-color: red");
+        formFields[3].setAttribute("style", "border: 2px solid;border-radius:25px;border-style: solid;border-color: red");
       }
     }
-  }
+  }// END OF HANDLELOGINBUTTON FUNCTION
 
 /* ---------- RENDER ----------*/
   render(){

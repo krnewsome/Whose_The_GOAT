@@ -45,6 +45,7 @@ router.get('/topGoats', function(req, res, next) {
 
 // PUT update user with voted NBA player id
 router.put('/newGOAT', function(req, res, next) {
+  console.log(req.session.userId)
   if(!req.session.userId ){
     const err = new Error ("Please Login or SignUp to Join others and Place Your Vote")
     err.status = 403;
